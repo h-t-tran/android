@@ -4,6 +4,8 @@ package com.sdsu.hoanh.assignment1;
  * Name:        Hoanh Tran
  * Project:     Assigment 1
  * Date:        Feb 1, 2015
+ * Desc:    This project tracks the activity life cycle and prints out the
+ * various callbacks.  It supports both portrait and landscape layout.
  */
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -99,7 +101,7 @@ public class PortraitActivity extends ActionBarActivity {
 
     private void _log(String msg) {
         TextView tv = (TextView)findViewById(R.id.textView2);
-        String newText = tv.getText() + ", " + msg;
+        String newText = tv.getText() + "\n" + msg;
         tv.setText(newText);
 
         Log.i(_title, msg);

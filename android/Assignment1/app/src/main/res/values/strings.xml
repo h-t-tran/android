@@ -2,7 +2,8 @@
 <resources>
 
     <string name="app_name">Assignment1</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="btn_clear_text">Clear</string>
+    <string name="btn_clear_tooltip">Click to clear</string>
 
 </resources>
