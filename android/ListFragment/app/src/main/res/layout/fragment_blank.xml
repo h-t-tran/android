@@ -33,6 +33,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/spinner2"
         android:layout_gravity="right|bottom"
-        android:spinnerMode="dropdown" />
+        android:spinnerMode="dropdown"
+        android:popupBackground="#ffff563f" />
 
 </FrameLayout>
