@@ -32,6 +32,8 @@
         android:layout_width="155dp"
         android:layout_height="301dp"
         android:id="@+id/listView"
+        android:choiceMode="singleChoice"
+        android:listSelector="@android:color/darker_gray"
         android:layout_gravity="right|top" />
 
     <Spinner
