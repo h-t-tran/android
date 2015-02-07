@@ -5,14 +5,22 @@
 
     <FrameLayout
         android:layout_width="256dp"
-        android:layout_height="100dp"
+        android:layout_height="200dp"
         android:id="@+id/container_inner"
         android:background="#ffff3b55"></FrameLayout>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Goto Act2"
         android:id="@+id/_goToAct2Btn"
         android:layout_gravity="left|bottom" />
+
+    <FrameLayout
+        android:layout_width="256dp"
+        android:layout_height="154dp"
+        android:id="@+id/container_list_frag_host"
+        android:background="#fffffa43"
+        android:layout_gravity="center"></FrameLayout>
 </FrameLayout>
 

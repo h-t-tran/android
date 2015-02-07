@@ -30,6 +30,7 @@ public class MainActivity extends ActionBarActivity {
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container_inner, new MyFragment())
+                    .add(R.id.container_list_frag_host, new MyListFragment())
                     .commit();
         }
         Button clearBnt = (Button)findViewById(R.id._goToAct2Btn);

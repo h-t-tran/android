@@ -1,6 +1,7 @@
 package com.sdsu.hoanh.listfragment;
 
-import android.support.v4.app.Fragment;
+import android.support.v4.app.*;
+//import android.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,8 +19,12 @@ public class MainActivity2 extends ActionBarActivity {
         setContentView(R.layout.activity_main_activity2);
 
         if (savedInstanceState == null) {
+
+
+            //Fragment frag =null;
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container2, new MyFragment())
+                    //.add(R.id.container2, (new MyListFragment()))
                     .commit();
         }
 //        getSupportFragmentManager().beginTransaction()
