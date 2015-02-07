@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context="com.sdsu.hoanh.testintent2.ItemFragment">
+
+    <GridView android:id="@android:id/list" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:numColumns="2" />
+
+    <TextView android:id="@android:id/empty" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:gravity="center" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="108dp"
+        android:text="New Button"
+        android:id="@+id/button4"
+        android:layout_gravity="center_horizontal|top" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/button5"
+        android:layout_gravity="left|top" />
+
+</FrameLayout>
