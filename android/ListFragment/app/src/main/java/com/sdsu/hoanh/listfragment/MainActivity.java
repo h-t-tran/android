@@ -10,7 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
-
+import android.widget.Button;
+import android.content.Intent;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -20,9 +21,26 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container_inner, new MyFragment())
                     .commit();
         }
+        Button clearBnt = (Button)findViewById(R.id._goToAct2Btn);
+
+
+        clearBnt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    try {
+                        Intent i = new Intent(MainActivity.this, MainActivity2.class);
+                        i.putExtra("data1", 123);
+                        MainActivity.this.startActivity(i);
+                    }
+                    catch(Exception e)
+                    {
+                       String s = e.getMessage();
+                    }
+            }
+        });
     }
 
 
@@ -48,6 +66,9 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public static class BlankFragment2 extends android.app.Fragment {
+
+    }
     /**
      * A placeholder fragment containing a simple view.
      */

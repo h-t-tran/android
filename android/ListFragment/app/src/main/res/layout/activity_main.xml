@@ -3,6 +3,11 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     tools:context=".MainActivity" tools:ignore="MergeRootFrame" >
 
+    <FrameLayout
+        android:layout_width="256dp"
+        android:layout_height="100dp"
+        android:id="@+id/container_inner"
+        android:background="#ffff3b55"></FrameLayout>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -10,3 +15,4 @@
         android:id="@+id/_goToAct2Btn"
         android:layout_gravity="left|bottom" />
 </FrameLayout>
+

@@ -1,9 +1,13 @@
 package com.sdsu.hoanh.listfragment;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 
 public class MainActivity2 extends ActionBarActivity {
@@ -13,9 +17,14 @@ public class MainActivity2 extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_activity2);
 
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.container, new MainActivity.PlaceholderFragment())
-                .commit();
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container2, new MyFragment())
+                    .commit();
+        }
+//        getSupportFragmentManager().beginTransaction()
+//                .add(R.id.container, new MainActivity.PlaceholderFragment())
+//                .commit();
     }
 
 
