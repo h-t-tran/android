@@ -10,11 +10,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.content.Intent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends ActionBarActivity {
 
+    public MainActivity()
+    {
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +49,9 @@ public class MainActivity extends ActionBarActivity {
                     }
             }
         });
+
+
+
     }
 
 
