@@ -22,5 +22,13 @@
         android:id="@+id/container_list_frag_host"
         android:background="#fffffa43"
         android:layout_gravity="center"></FrameLayout>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/editText"
+        android:layout_gravity="right|bottom" />
 </FrameLayout>
 

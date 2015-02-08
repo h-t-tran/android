@@ -49,22 +49,14 @@ public class MyListFragment extends ListFragment {
     {
         super.onActivityCreated(bundle);
 
-        try {
-            ListView lv = this.getListView();
-            lv.setSelection(2);
+        ListView lv = this.getListView();
+        lv.setSelection(2);
 
-            Object o = lv.getSelectedItem();
-            lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-            int lightGreen = 0xA9BCF500;
-            ColorDrawable cd = new ColorDrawable(lightGreen);
-            lv.setSelector(cd);
-            lv.getAdapter();
-        }
-        catch(Exception e)
-        {
-            String m = e.getMessage();
-            String s = m;
-        }
+        Object o = lv.getSelectedItem();
+        lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        int lightGreen = 0xA9BCF500;
+        ColorDrawable cd = new ColorDrawable(lightGreen);
+        lv.setSelector(cd);
     }
 
 //    private static void setDefaultListSelector(ListView listView, Context context) {
