@@ -8,4 +8,9 @@
     <string name="title_activity_keyboard">KeyboardActivity</string>
     <string name="title_activity_list">ListActivity</string>
     <string name="date_accept_btn_text">Accept</string>
+    <string name="main_enter_an_action">Please select an action:</string>
+    <string name="main_data_prompt">Data:</string>
+    <string name="date_accept_btn_txt">Accept</string>
+    <string name="keyboard_back_btn_txt">Back</string>
+    <string name="keyboard_hide_btn_txt">Hide</string>
 </resources>

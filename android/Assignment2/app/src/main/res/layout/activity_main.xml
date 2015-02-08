@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Data:"
+            android:text="@string/main_data_prompt"
             android:id="@+id/textView" />
 
         <EditText
@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Please select an action:" />
+            android:text="@string/main_enter_an_action" />
 
         <Spinner
             android:layout_marginTop="10dp"
