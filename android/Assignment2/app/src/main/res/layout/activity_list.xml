@@ -27,8 +27,9 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Go"
-            android:id="@+id/list_activity_button_go"
+            android:layout_marginTop="10dp"
+            android:text="Back"
+            android:id="@+id/list_activity_button_back"
             android:layout_below="@+id/linearLayout"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal" />
