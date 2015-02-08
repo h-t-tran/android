@@ -1,5 +1,6 @@
 package com.sdsu.hoanh.assignment2;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -7,6 +8,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
@@ -28,8 +31,26 @@ public class MainActivity extends ActionBarActivity {
         if (savedInstanceState == null) {
             _loadDesertListFragment();
         }
+
+        _setupGoButton();
     }
 
+    private void _setupGoButton()
+    {
+        Button goBtn = (Button)findViewById(R.id.go_button);
+        goBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // we what activity the user wants to navigate to
+                Spinner spinner = (Spinner)findViewById(R.id.spinner);
+                Object selItem = spinner.getSelectedItem();
+                if(selItem.toString().equals(_dateEntryText))
+                {
+                    MainActivity.this._goToDateActivity();
+                }
+            }
+        });
+    }
 
     private void _fillActivitySelectionSpinner()
     {
@@ -47,20 +68,6 @@ public class MainActivity extends ActionBarActivity {
         // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
 
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-//        {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position,
-//                                       long id) {
-//                Object obj = spinner.getSelectedItem();
-//                String label = parent.getItemAtPosition(position).toString();
-//            }
-//            @Override
-//            public void onNothingSelected(AdapterView<?> arg0) {
-//                // TODO Auto-generated method stub
-//
-//            }
-//        });
 
     }
 
@@ -72,9 +79,22 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    protected void onActivityResult(int reqCode, int resCode, Intent data)
+    {
+        // if the result is from the date activity, get the passed back date and display it.
+        if(reqCode == Constants.DATE_ACTIVITY_RESULT_CODE)
+        {
+            String date = data.getStringExtra(DateActivity.DATE_ENTRY_KEY);
+            EditText et = (EditText) findViewById(R.id.dataText);
+            et.setText(date);
+
+        }
+    }
     private void _goToDateActivity()
     {
-
+        Intent intent = new Intent(this, DateActivity.class);
+        //intent.putExtra("data1", 123);
+        this.startActivityForResult(intent, Constants.DATE_ACTIVITY_RESULT_CODE);
     }
 
     private void _goToKeyboardActivity()

@@ -41,7 +41,7 @@
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editText2" />
+            android:id="@+id/dataText" />
 
         <Spinner
             android:layout_marginTop="10dp"
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="Go"
-            android:id="@+id/button2"
+            android:id="@+id/go_button"
             android:layout_below="@+id/linearLayout"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal" />
