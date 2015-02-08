@@ -27,7 +27,6 @@ public class DateActivity extends ActionBarActivity {
         setContentView(R.layout.activity_date);
 
         final EditText et = (EditText) findViewById(R.id.date_entry_textbox);
-        //et.setText("2/10/2015");
         _load();
 
         Button goBtn = (Button)findViewById(R.id.date_accept);

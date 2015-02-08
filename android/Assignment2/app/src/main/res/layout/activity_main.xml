@@ -35,13 +35,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Data"
+            android:text="Data:"
             android:id="@+id/textView" />
 
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/dataText" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Please select an action:" />
 
         <Spinner
             android:layout_marginTop="10dp"
@@ -52,7 +58,7 @@
         <FrameLayout
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="254dp"
+            android:layout_height="200dp"
             android:id="@+id/container_list_frag_host"
             android:background="#fffffa43"
             android:layout_gravity="center"></FrameLayout>

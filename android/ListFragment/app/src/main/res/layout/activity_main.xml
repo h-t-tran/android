@@ -30,5 +30,6 @@
         android:ems="10"
         android:id="@+id/editText"
         android:layout_gravity="right|bottom" />
+
 </FrameLayout>
 

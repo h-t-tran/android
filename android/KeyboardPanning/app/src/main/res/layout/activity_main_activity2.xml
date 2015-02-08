@@ -9,37 +9,42 @@
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/keyboard_top_text"
+        android:id="@+id/editText3"
         android:layout_alignParentTop="true"
         android:text="top" />
-*
+
+    <TextView android:text="activity 2" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView" />
 
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/keyboard_middle_text"
+        android:id="@+id/editText4"
+        android:text="middle"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="136dp"
-        android:layout_above="@+id/keyboard_bottom_text" />
+        android:layout_above="@+id/editText" />
 
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/keyboard_bottom_text"
+        android:id="@+id/editText"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="61dp"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"/>
+        android:layout_alignParentEnd="true"
+        android:text="bottom" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Back"
-        android:id="@+id/keyboard_back_btn"
-        android:layout_alignTop="@+id/keyboard_hide_btn"
+        android:id="@+id/button"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -47,9 +52,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hide"
-        android:id="@+id/keyboard_hide_btn"
-        android:layout_above="@+id/keyboard_bottom_text"
-        android:layout_alignRight="@+id/keyboard_bottom_text"
-        android:layout_alignEnd="@+id/keyboard_bottom_text" />
+        android:id="@+id/button2"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

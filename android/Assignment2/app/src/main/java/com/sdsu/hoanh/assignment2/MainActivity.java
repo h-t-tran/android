@@ -21,7 +21,7 @@ public class MainActivity extends ActionBarActivity {
     private static final String _dateEntryText = "Date Entry";
     private static final String _keyboardEntryText = "Keyboard Entry";
     private static final String _listSelText = "List Selection";
-
+    public static final String KEYBOARD_DATA_KEY = "com.sdsu.hoanh.assignment2.keyboard_data_key";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +48,14 @@ public class MainActivity extends ActionBarActivity {
                 {
                     MainActivity.this._goToDateActivity();
                 }
+                else if(selItem.toString().equals(_keyboardEntryText))
+                {
+                    MainActivity.this._goToKeyboardActivity();
+                }
+                else if(selItem.toString().equals(_listSelText))
+                {
+                    MainActivity.this._goToListActivity();
+                }
             }
         });
     }
@@ -56,8 +64,8 @@ public class MainActivity extends ActionBarActivity {
     {
         final Spinner spinner = (Spinner)findViewById(R.id.spinner);
         List<String> actArray = new ArrayList<String>();
-        actArray.add(_dateEntryText);
         actArray.add(_keyboardEntryText);
+        actArray.add(_dateEntryText);
         actArray.add(_listSelText);
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
@@ -99,12 +107,17 @@ public class MainActivity extends ActionBarActivity {
 
     private void _goToKeyboardActivity()
     {
-
+        Intent intent = new Intent(this, KeyboardActivity.class);
+        // add data to the intent for the keyboard activity
+        EditText et = (EditText) findViewById(R.id.dataText);
+        intent.putExtra(KEYBOARD_DATA_KEY, et.getText().toString());
+        this.startActivity(intent);
     }
 
     private void _goToListActivity()
     {
-
+        Intent intent = new Intent(this, ListActivity.class);
+        this.startActivityForResult(intent, Constants.LIST_ACTIVITY_RESULT_CODE);
     }
 
 
