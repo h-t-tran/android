@@ -1,19 +1,51 @@
 package com.sdsu.hoanh.assignment2;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 
-public class ListActivity extends ActionBarActivity {
+public class ListActivity extends ActionBarActivity implements DesertResultCallback {
+
+    private String _selectedDesert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
+        _loadDesertListFragment();
+
+        Button backBtn = (Button)findViewById(R.id.list_activity_button_back);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                _handleBackButton();
+            }
+        });
     }
 
+    public void onDesertSelected(String desertName)
+    {
+        _selectedDesert = desertName;
+    }
+
+    private void _loadDesertListFragment()
+    {
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.list_activity_container_list_frag_host,
+                                DesertFragment.newInstance(DesertFragment._donut))
+                .commit();
+
+    }
+    private void _handleBackButton()
+    {
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

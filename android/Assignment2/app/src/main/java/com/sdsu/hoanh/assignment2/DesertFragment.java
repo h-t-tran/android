@@ -1,5 +1,6 @@
 package com.sdsu.hoanh.assignment2;
 
+import android.app.Activity;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -12,49 +13,111 @@ import java.util.List;
 
 public class DesertFragment extends ListFragment {
 
-    private static final String _cupCake = "Cupcake";
-    private static final String _donut = "Donut";
-    private static final String _gingerBread = "Gingerbread";
-    private static final String _iceCream = "Ice Cream";
-    private static final String _jellyBean = "Jelly Bean";
+    private static final String DesertNameKey = "com.sdsu.hoanh.assignment2.DesertFragment.DesertNameKey";
+    public static final String _cupCake = "Cupcake";
+    public static final String _donut = "Donut";
+    public static final String _gingerBread = "Gingerbread";
+    public static final String _iceCream = "Ice Cream";
+    public static final String _jellyBean = "Jelly Bean";
+
+    private static final int _invalid = -1;
+    private int _selectedDesertIdx = _invalid;
+    private List<String> _dessertArray = new ArrayList<String>();
+    private DesertResultCallback _desertCallbackClient;
+    /**
+     * Factory method to create a fragment with a bundle containing the passed in desert.
+     * @param desert name of the desert we want to pass to the fragment
+     * @return the desert fragment instance
+     */
+    public static DesertFragment newInstance(String desert)
+    {
+        Bundle arg = new Bundle();
+        arg.putCharSequence(DesertNameKey, desert);
+
+        DesertFragment frag = new DesertFragment();
+        frag.setArguments(arg);
+        return frag;
+    }
 
     @Override
     public void onCreate(Bundle bundle)
     {
         super.onCreate(bundle);
 
-        getActivity().setTitle("My List Fragment");
+        //getActivity().setTitle("My List Fragment");
 
-        List<String> dessertArray = new ArrayList<String>();
-        dessertArray.add(_cupCake);
-        dessertArray.add(_donut);
-        dessertArray.add(_gingerBread);
-        dessertArray.add(_iceCream);
-        dessertArray.add(_jellyBean);
+        //
+        // set up the dessert selection
+        //
+        _dessertArray.add(_cupCake);
+        _dessertArray.add(_donut);
+        _dessertArray.add(_gingerBread);
+        _dessertArray.add(_iceCream);
+        _dessertArray.add(_jellyBean);
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this.getActivity(),
                 //android.R.layout.simple_list_item_1,
-                android.R.layout.simple_list_item_single_choice,
-                dessertArray);
+                //android.R.layout.simple_list_item_single_choice,
+                android.R.layout.simple_list_item_checked,
+                _dessertArray);
 
         this.setListAdapter(dataAdapter);
 
+        //
+        // get the passed in desert name
+        //
+        _selectDesert();
     }
 
+    /**
+     * Get the desert passed in from the host activity and select the item in the list.
+     */
+    private void _selectDesert()
+    {
+
+        Bundle arg = getArguments();
+        if(arg != null) {
+            String desertName = (String)arg.getCharSequence(DesertNameKey);
+
+            // make sure we have a desert.
+            if(desertName != null) {
+                // find the index of the desert in the list and save it for later.
+                _selectedDesertIdx = _dessertArray.indexOf(desertName);
+
+            }
+        }
+
+    }
+
+    @Override
+    public void onAttach(Activity a) {
+        super.onAttach(a);
+        if(a instanceof DesertResultCallback) {
+            _desertCallbackClient = (DesertResultCallback) a;
+        }
+    }
 
     @Override
     public void onActivityCreated(Bundle bundle)
     {
         super.onActivityCreated(bundle);
-
         ListView lv = this.getListView();
-        lv.setSelection(2);
 
-        Object o = lv.getSelectedItem();
+        // set single selection and the selected item color
         lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        int lightGreen = 0xA9BCF500;
-        ColorDrawable cd = new ColorDrawable(lightGreen);
-        lv.setSelector(cd);
+        //final int lightGreen = 0xA9BCF500;
+        //ColorDrawable cd = new ColorDrawable(lightGreen);
+        //lv.setSelector(cd);
+
+        //lv.setSelection(2); // not working.
+        //lv.setItemChecked(2, true);
+        //Object o = lv.getSelectedItem();
+
+
+        // select the passed in desert if it is valid.
+        if(_selectedDesertIdx != _invalid) {
+            lv.setItemChecked(_selectedDesertIdx, true);
+        }
     }
 
 }

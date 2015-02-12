@@ -19,7 +19,7 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="450dp"
+            android:layout_height="300dp"
             android:id="@+id/list_activity_container_list_frag_host"
             android:background="#fffffa43"
             android:layout_gravity="center"></FrameLayout>

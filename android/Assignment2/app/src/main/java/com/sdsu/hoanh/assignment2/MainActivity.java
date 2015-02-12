@@ -64,9 +64,9 @@ public class MainActivity extends ActionBarActivity {
     {
         final Spinner spinner = (Spinner)findViewById(R.id.spinner);
         List<String> actArray = new ArrayList<String>();
+        actArray.add(_listSelText);
         actArray.add(_keyboardEntryText);
         actArray.add(_dateEntryText);
-        actArray.add(_listSelText);
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item,
@@ -82,7 +82,7 @@ public class MainActivity extends ActionBarActivity {
     private void _loadDesertListFragment()
     {
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.container_list_frag_host, new DesertFragment())
+                .add(R.id.container_list_frag_host, DesertFragment.newInstance(null))
                 .commit();
 
     }
