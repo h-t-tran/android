@@ -16,12 +16,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements DesertResultCallback {
 
     private static final String _dateEntryText = "Date Entry";
     private static final String _keyboardEntryText = "Keyboard Entry";
     private static final String _listSelText = "List Selection";
     public static final String KEYBOARD_DATA_KEY = "com.sdsu.hoanh.assignment2.keyboard_data_key";
+
+    private String _selectDesert = null;
+    private DesertFragment _desertFrag;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +64,15 @@ public class MainActivity extends ActionBarActivity {
         });
     }
 
+    /**
+     * Save the selected desert from the desert fragment.
+     * @param desertName the desert name
+     */
+    public void onDesertSelected(String desertName)
+    {
+        _selectDesert = desertName;
+    }
+
     private void _fillActivitySelectionSpinner()
     {
         final Spinner spinner = (Spinner)findViewById(R.id.spinner);
@@ -79,10 +92,14 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    /**
+     * Load the List fragment and initialize it
+     */
     private void _loadDesertListFragment()
     {
+        _desertFrag = DesertFragment.newInstance(_selectDesert);
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.container_list_frag_host, DesertFragment.newInstance(null))
+                .add(R.id.container_list_frag_host, _desertFrag)
                 .commit();
 
     }
@@ -95,7 +112,12 @@ public class MainActivity extends ActionBarActivity {
             String date = data.getStringExtra(DateActivity.DATE_ENTRY_KEY);
             EditText et = (EditText) findViewById(R.id.dataText);
             et.setText(date);
-
+        }
+        else if(reqCode == Constants.LIST_ACTIVITY_RESULT_CODE)
+        {
+            String desert = data.getStringExtra(ListActivity.DESERT_NAME_RESULT_KEY);
+            // update the listview with the new desert.
+            _desertFrag.setSelectedDesert(desert);
         }
     }
     private void _goToDateActivity()
@@ -117,6 +139,7 @@ public class MainActivity extends ActionBarActivity {
     private void _goToListActivity()
     {
         Intent intent = new Intent(this, ListActivity.class);
+        intent.putExtra(ListActivity.DESERT_NAME_KEY, _selectDesert);
         this.startActivityForResult(intent, Constants.LIST_ACTIVITY_RESULT_CODE);
     }
 

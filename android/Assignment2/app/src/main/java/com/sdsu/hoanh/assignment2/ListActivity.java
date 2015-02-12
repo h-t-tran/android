@@ -13,12 +13,18 @@ public class ListActivity extends ActionBarActivity implements DesertResultCallb
 
     private String _selectedDesert;
 
+    public static final String DESERT_NAME_KEY = "com.sdsu.hoanh.assignment2.ListActivity.DesertNameKey";
+    public static final String DESERT_NAME_RESULT_KEY = "com.sdsu.hoanh.assignment2.ListActivity.DesertNameResultKey";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        _loadDesertListFragment();
+        // get the desert passed in from the calling activity and populate it
+        // in the list fragment.
+        String desert = this.getIntent().getStringExtra(DESERT_NAME_KEY);
+        _loadDesertListFragment(desert); //DesertFragment._donut);
 
         Button backBtn = (Button)findViewById(R.id.list_activity_button_back);
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -34,17 +40,28 @@ public class ListActivity extends ActionBarActivity implements DesertResultCallb
         _selectedDesert = desertName;
     }
 
-    private void _loadDesertListFragment()
+    /**
+     * create the desert fragment and inject the desert name into it.
+     */
+    private void _loadDesertListFragment(String desertName)
     {
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.list_activity_container_list_frag_host,
-                                DesertFragment.newInstance(DesertFragment._donut))
+                                DesertFragment.newInstance(desertName))
                 .commit();
 
     }
+
+    /**
+     * pass back the selected desert to the calling activity.
+     */
     private void _handleBackButton()
     {
-
+        Intent data = new Intent();
+        data.putExtra(ListActivity.DESERT_NAME_RESULT_KEY, _selectedDesert);
+        // send data back to the calling activity.
+        this.setResult(RESULT_OK, data);
+        this.finish();
     }
 
     @Override

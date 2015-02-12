@@ -67,33 +67,6 @@ public class DateActivity extends ActionBarActivity {
         return res;
     }
 
-    private String _getStoragePath()
-    {
-        return getFilesDir() + DateSaveFilename;
-    }
-
-//    private void _save(String dateStr)
-//    {
-//        String fn = _getStoragePath();
-//        try
-//        {
-//
-//            FileWriter fw = new FileWriter(fn);
-//            fw.write(dateStr);
-//            fw.close();
-//
-//            Toast.makeText(this.getApplicationContext(),
-//                    "Saved successfully to " + fn,
-//                    Toast.LENGTH_LONG).show();
-//        }
-//        catch(Exception e)
-//        {
-//            Toast.makeText(this.getApplicationContext(),
-//                        "Unable to write to file " + fn + ". Reason " + e.getMessage(),
-//                        Toast.LENGTH_LONG).show();
-//        }
-//    }
-
     private void _load()
     {
         // read the date from file and set the EditText

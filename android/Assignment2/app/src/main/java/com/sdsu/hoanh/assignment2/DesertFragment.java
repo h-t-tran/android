@@ -1,9 +1,10 @@
 package com.sdsu.hoanh.assignment2;
 
 import android.app.Activity;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -13,7 +14,7 @@ import java.util.List;
 
 public class DesertFragment extends ListFragment {
 
-    private static final String DesertNameKey = "com.sdsu.hoanh.assignment2.DesertFragment.DesertNameKey";
+    private static final String DESERT_NAME_KEY = "com.sdsu.hoanh.assignment2.DesertFragment.DESERT_NAME_KEY";
     public static final String _cupCake = "Cupcake";
     public static final String _donut = "Donut";
     public static final String _gingerBread = "Gingerbread";
@@ -32,7 +33,7 @@ public class DesertFragment extends ListFragment {
     public static DesertFragment newInstance(String desert)
     {
         Bundle arg = new Bundle();
-        arg.putCharSequence(DesertNameKey, desert);
+        arg.putCharSequence(DESERT_NAME_KEY, desert);
 
         DesertFragment frag = new DesertFragment();
         frag.setArguments(arg);
@@ -66,28 +67,37 @@ public class DesertFragment extends ListFragment {
         //
         // get the passed in desert name
         //
-        _selectDesert();
+        _retrieveInputDesert();
     }
 
     /**
      * Get the desert passed in from the host activity and select the item in the list.
      */
-    private void _selectDesert()
+    private void _retrieveInputDesert()
     {
 
         Bundle arg = getArguments();
         if(arg != null) {
-            String desertName = (String)arg.getCharSequence(DesertNameKey);
-
+            String desertName = (String)arg.getCharSequence(DESERT_NAME_KEY);
             // make sure we have a desert.
             if(desertName != null) {
                 // find the index of the desert in the list and save it for later.
                 _selectedDesertIdx = _dessertArray.indexOf(desertName);
-
             }
         }
 
     }
+
+    public void setSelectedDesert(String desert)
+    {
+        int idx = _dessertArray.indexOf(desert);
+        if(idx >= 0)
+        {
+            _selectedDesertIdx = idx;
+            this.getListView().setItemChecked(_selectedDesertIdx, true);
+        }
+    }
+
 
     @Override
     public void onAttach(Activity a) {
@@ -103,21 +113,26 @@ public class DesertFragment extends ListFragment {
         super.onActivityCreated(bundle);
         ListView lv = this.getListView();
 
-        // set single selection and the selected item color
         lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        //final int lightGreen = 0xA9BCF500;
-        //ColorDrawable cd = new ColorDrawable(lightGreen);
-        //lv.setSelector(cd);
-
-        //lv.setSelection(2); // not working.
-        //lv.setItemChecked(2, true);
-        //Object o = lv.getSelectedItem();
-
 
         // select the passed in desert if it is valid.
         if(_selectedDesertIdx != _invalid) {
             lv.setItemChecked(_selectedDesertIdx, true);
         }
+
+
+        // Setting the item click listener for listView
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(_desertCallbackClient != null)
+                {
+                    String selDesert = _dessertArray.get(position);
+                    _desertCallbackClient.onDesertSelected(selDesert);
+                }
+            }
+        });
+
     }
 
 }
