@@ -88,6 +88,12 @@ public class DesertFragment extends ListFragment {
 
     }
 
+
+
+    /**
+     * Inform the fragment of the desert to select
+     * @param desert
+     */
     public void setSelectedDesert(String desert)
     {
         int idx = _dessertArray.indexOf(desert);
@@ -98,7 +104,15 @@ public class DesertFragment extends ListFragment {
         }
     }
 
-
+    /**
+     *
+     * @return the most recent desert selection.
+     */
+    public String getSelectedDesert()
+    {
+        return _dessertArray.get(_selectedDesertIdx);
+    }
+    
     @Override
     public void onAttach(Activity a) {
         super.onAttach(a);
@@ -119,7 +133,6 @@ public class DesertFragment extends ListFragment {
         if(_selectedDesertIdx != _invalid) {
             lv.setItemChecked(_selectedDesertIdx, true);
         }
-
 
         // Setting the item click listener for listView
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
