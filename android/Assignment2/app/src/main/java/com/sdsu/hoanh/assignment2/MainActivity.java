@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends ActionBarActivity implements DesertResultCallback {
+public class MainActivity extends ActionBarActivity {
 
     private static String _dateEntryText = "Date Entry";
     private static final String _keyboardEntryText = "Keyboard Entry";
@@ -40,9 +41,8 @@ public class MainActivity extends ActionBarActivity implements DesertResultCallb
         }
 
         _setupGoButton();
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            //this.getActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+
+
 
     }
 
@@ -69,16 +69,10 @@ public class MainActivity extends ActionBarActivity implements DesertResultCallb
                 }
             }
         });
+
+        //this.registerForContextMenu(goBtn);
     }
 
-    /**
-     * Save the selected desert from the desert fragment.
-     * @param desertName the desert name
-     */
-    public void onDesertSelected(String desertName)
-    {
-        _selectDesert = desertName;
-    }
 
     private void _fillActivitySelectionSpinner()
     {
@@ -149,8 +143,9 @@ public class MainActivity extends ActionBarActivity implements DesertResultCallb
 
     private void _goToListActivity()
     {
+        String selDesert = _desertFrag.getSelectedDesert();
         Intent intent = new Intent(this, ListActivity.class);
-        intent.putExtra(ListActivity.DESERT_NAME_KEY, _selectDesert);
+        intent.putExtra(ListActivity.DESERT_NAME_KEY, selDesert);
         this.startActivityForResult(intent, Constants.LIST_ACTIVITY_RESULT_CODE);
     }
 
@@ -160,7 +155,6 @@ public class MainActivity extends ActionBarActivity implements DesertResultCallb
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-
 
         return true;
     }
@@ -184,5 +178,11 @@ public class MainActivity extends ActionBarActivity implements DesertResultCallb
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
+    {
+        this.getMenuInflater().inflate(R.menu.menu_main, menu);
     }
 }

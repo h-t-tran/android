@@ -9,9 +9,9 @@ import android.view.View;
 import android.widget.Button;
 
 
-public class ListActivity extends ActionBarActivity implements DesertResultCallback {
+public class ListActivity extends ActionBarActivity {
 
-    private String _selectedDesert;
+    private DesertFragment _desertFrag;
 
     public static final String DESERT_NAME_KEY = "com.sdsu.hoanh.assignment2.ListActivity.DesertNameKey";
     public static final String DESERT_NAME_RESULT_KEY = "com.sdsu.hoanh.assignment2.ListActivity.DesertNameResultKey";
@@ -35,19 +35,15 @@ public class ListActivity extends ActionBarActivity implements DesertResultCallb
         });
     }
 
-    public void onDesertSelected(String desertName)
-    {
-        _selectedDesert = desertName;
-    }
 
     /**
      * create the desert fragment and inject the desert name into it.
      */
     private void _loadDesertListFragment(String desertName)
     {
+        _desertFrag = DesertFragment.newInstance(desertName);
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.list_activity_container_list_frag_host,
-                                DesertFragment.newInstance(desertName))
+                .add(R.id.list_activity_container_list_frag_host, _desertFrag)
                 .commit();
 
     }
@@ -58,7 +54,7 @@ public class ListActivity extends ActionBarActivity implements DesertResultCallb
     private void _handleBackButton()
     {
         Intent data = new Intent();
-        data.putExtra(ListActivity.DESERT_NAME_RESULT_KEY, _selectedDesert);
+        data.putExtra(ListActivity.DESERT_NAME_RESULT_KEY, _desertFrag.getSelectedDesert());
         // send data back to the calling activity.
         this.setResult(RESULT_OK, data);
         this.finish();

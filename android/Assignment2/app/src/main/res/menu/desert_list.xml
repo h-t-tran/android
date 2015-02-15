@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.sdsu.hoanh.assignment2.ListActivity">
+
+    <item android:id="@+id/dessert_cupcake" android:title="@string/desert_cupcake"
+        android:orderInCategory="100" app:showAsAction="always" />
+    <item android:id="@+id/desert_donut" android:title="@string/desert_donut"
+        android:orderInCategory="101" app:showAsAction="always" />
+    <item android:id="@+id/desert_gingerbread" android:title="@string/desert_gingerbread"
+        android:orderInCategory="101" app:showAsAction="always" />
+    <item android:id="@+id/desert_icecream" android:title="@string/desert_icecream"
+        android:orderInCategory="101" app:showAsAction="always" />
+    <item android:id="@+id/desert_jellybean" android:title="@string/desert_jellybean"
+        android:orderInCategory="101" app:showAsAction="always" />
+
+
+</menu>

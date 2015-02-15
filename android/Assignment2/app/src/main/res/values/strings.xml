@@ -16,4 +16,10 @@
     <string name="menu_list_title">List</string>
     <string name="menu_keyboard_title">Keyboard</string>
     <string name="menu_date_title">Date</string>
+
+    <string name="desert_cupcake">Cupcake</string>
+    <string name="desert_donut">Donut</string>
+    <string name="desert_gingerbread">Ginger Bread</string>
+    <string name="desert_icecream">Ice Cream</string>
+    <string name="desert_jellybean">Jelly Bean</string>
 </resources>

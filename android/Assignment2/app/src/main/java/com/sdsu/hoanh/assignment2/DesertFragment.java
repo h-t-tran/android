@@ -3,8 +3,10 @@ package com.sdsu.hoanh.assignment2;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,11 +20,11 @@ import java.util.List;
 public class DesertFragment extends ListFragment {
 
     private static final String DESERT_NAME_KEY = "com.sdsu.hoanh.assignment2.DesertFragment.DESERT_NAME_KEY";
-    public static final String _cupCake = "Cupcake";
-    public static final String _donut = "Donut";
-    public static final String _gingerBread = "Gingerbread";
-    public static final String _iceCream = "Ice Cream";
-    public static final String _jellyBean = "Jelly Bean";
+    public static String _cupCake;
+    public static String _donut;
+    public static String _gingerBread;
+    public static String _iceCream;
+    public static String _jellyBean;
 
     private static final int _invalid = -1;
     private int _selectedDesertIdx = _invalid;
@@ -48,8 +50,12 @@ public class DesertFragment extends ListFragment {
     {
         super.onCreate(bundle);
 
-        //getActivity().setTitle("My List Fragment");
-  
+        // initialize the menu items
+        _cupCake = getResources().getString(R.string.desert_cupcake);
+        _donut = getResources().getString(R.string.desert_donut);
+        _gingerBread = getResources().getString(R.string.desert_gingerbread);
+        _iceCream = getResources().getString(R.string.desert_icecream);
+        _jellyBean = getResources().getString(R.string.desert_jellybean);
 
         //
         // set up the dessert selection
@@ -78,7 +84,6 @@ public class DesertFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle bundle)
     {
         View view = super.onCreateView(inflater, parent, bundle);
-        Object bar = this.getActivity().getActionBar();
 
         return view;
     }
@@ -125,13 +130,13 @@ public class DesertFragment extends ListFragment {
         return _dessertArray.get(_selectedDesertIdx);
     }
 
-    @Override
-    public void onAttach(Activity a) {
-        super.onAttach(a);
-        if(a instanceof DesertResultCallback) {
-            _desertCallbackClient = (DesertResultCallback) a;
-        }
-    }
+//    @Override
+//    public void onAttach(Activity a) {
+//        super.onAttach(a);
+//        if(a instanceof DesertResultCallback) {
+//            _desertCallbackClient = (DesertResultCallback) a;
+//        }
+//    }
 
     @Override
     public void onActivityCreated(Bundle bundle)
@@ -150,14 +155,55 @@ public class DesertFragment extends ListFragment {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(_desertCallbackClient != null)
-                {
-                    String selDesert = _dessertArray.get(position);
-                    _desertCallbackClient.onDesertSelected(selDesert);
-                }
+                String selDesert = _dessertArray.get(position);
+                DesertFragment.this.setSelectedDesert(selDesert);
+//                if(_desertCallbackClient != null)
+//                {
+//
+//                    //_desertCallbackClient.onDesertSelected(selDesert);
+//                }
             }
         });
 
+        this.registerForContextMenu(lv);
+
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
+    {
+        this.getActivity().getMenuInflater().inflate(R.menu.desert_list, menu);
+    }
+
+    /**
+     * handler when the context menu is selected.
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onContextItemSelected(MenuItem menu)
+    {
+
+        switch (menu.getItemId())
+        {
+            case R.id.desert_donut:
+                setSelectedDesert(_donut);
+                break;
+            case R.id.dessert_cupcake:
+                setSelectedDesert(_cupCake);
+                break;
+            case R.id.desert_gingerbread:
+                setSelectedDesert(_gingerBread);
+                break;
+            case R.id.desert_jellybean:
+                setSelectedDesert(_jellyBean);
+                break;
+            case R.id.desert_icecream:
+                setSelectedDesert(_iceCream);
+                break;
+        }
+
+        return true;
     }
 
 }
