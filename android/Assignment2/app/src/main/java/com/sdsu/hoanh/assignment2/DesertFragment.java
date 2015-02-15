@@ -16,7 +16,9 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * The reusable fragment containing the desert list selection.
+ */
 public class DesertFragment extends ListFragment {
 
     private static final String DESERT_NAME_KEY = "com.sdsu.hoanh.assignment2.DesertFragment.DESERT_NAME_KEY";
@@ -45,6 +47,9 @@ public class DesertFragment extends ListFragment {
         return frag;
     }
 
+    /**
+     * The creation method
+     */
     @Override
     public void onCreate(Bundle bundle)
     {
@@ -80,13 +85,6 @@ public class DesertFragment extends ListFragment {
         _retrieveInputDesert();
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle bundle)
-    {
-        View view = super.onCreateView(inflater, parent, bundle);
-
-        return view;
-    }
     /**
      * Get the desert passed in from the host activity and select the item in the list.
      */
@@ -104,8 +102,6 @@ public class DesertFragment extends ListFragment {
         }
 
     }
-
-
 
     /**
      * Inform the fragment of the desert to select
@@ -130,14 +126,10 @@ public class DesertFragment extends ListFragment {
         return _dessertArray.get(_selectedDesertIdx);
     }
 
-//    @Override
-//    public void onAttach(Activity a) {
-//        super.onAttach(a);
-//        if(a instanceof DesertResultCallback) {
-//            _desertCallbackClient = (DesertResultCallback) a;
-//        }
-//    }
-
+    /**
+     * setup the listview and its listener.
+     * @param bundle
+     */
     @Override
     public void onActivityCreated(Bundle bundle)
     {
@@ -157,11 +149,6 @@ public class DesertFragment extends ListFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selDesert = _dessertArray.get(position);
                 DesertFragment.this.setSelectedDesert(selDesert);
-//                if(_desertCallbackClient != null)
-//                {
-//
-//                    //_desertCallbackClient.onDesertSelected(selDesert);
-//                }
             }
         });
 
@@ -169,6 +156,9 @@ public class DesertFragment extends ListFragment {
 
     }
 
+    /**
+     * Override to create the desert context menu
+     */
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
     {
@@ -176,9 +166,9 @@ public class DesertFragment extends ListFragment {
     }
 
     /**
-     * handler when the context menu is selected.
-     * @param menu
-     * @return
+     * handler when the context menu is selected.  We save the selected menu
+     * @param menu the menu object that is selected
+     * @return true always
      */
     @Override
     public boolean onContextItemSelected(MenuItem menu)

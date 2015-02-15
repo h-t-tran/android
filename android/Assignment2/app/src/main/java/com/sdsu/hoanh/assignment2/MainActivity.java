@@ -1,3 +1,11 @@
+
+/**
+ * Name:        Hoanh Tran
+ * Project:     Assigment 2
+ * Date:        Feb 14, 2015
+ * Desc:    This project experiments with various UI logic such as activity navigation,
+ * context menu, action bars, keyboard entry, fragments.
+ */
 package com.sdsu.hoanh.assignment2;
 
 import android.annotation.TargetApi;
@@ -18,7 +26,9 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * The startup activity for this project.
+ */
 public class MainActivity extends ActionBarActivity {
 
     private static String _dateEntryText = "Date Entry";
@@ -29,7 +39,9 @@ public class MainActivity extends ActionBarActivity {
     private String _selectDesert = null;
     private DesertFragment _desertFrag;
 
-    @TargetApi(11)
+    /**
+     * The creation method.  This is where we make various calls to do initialization
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,11 +53,11 @@ public class MainActivity extends ActionBarActivity {
         }
 
         _setupGoButton();
-
-
-
     }
 
+    /**
+     * register handler for the go button
+     */
     private void _setupGoButton()
     {
         Button goBtn = (Button)findViewById(R.id.go_button);
@@ -69,11 +81,12 @@ public class MainActivity extends ActionBarActivity {
                 }
             }
         });
-
-        //this.registerForContextMenu(goBtn);
     }
 
 
+    /**
+     * Fill in the list of all possible activity
+     */
     private void _fillActivitySelectionSpinner()
     {
         final Spinner spinner = (Spinner)findViewById(R.id.spinner);
@@ -105,6 +118,9 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    /**
+     * Callback from other activity indicating their results
+     */
     protected void onActivityResult(int reqCode, int resCode, Intent data)
     {
         if(data == null)
@@ -125,13 +141,20 @@ public class MainActivity extends ActionBarActivity {
             _desertFrag.setSelectedDesert(desert);
         }
     }
+
+    /**
+     * Navigation to date activity
+     */
     private void _goToDateActivity()
     {
         Intent intent = new Intent(this, DateActivity.class);
-        //intent.putExtra("data1", 123);
         this.startActivityForResult(intent, Constants.DATE_ACTIVITY_RESULT_CODE);
     }
 
+
+    /**
+     * Navigation to keyboard activity
+     */
     private void _goToKeyboardActivity()
     {
         Intent intent = new Intent(this, KeyboardActivity.class);
@@ -141,6 +164,10 @@ public class MainActivity extends ActionBarActivity {
         this.startActivity(intent);
     }
 
+
+    /**
+     * Navigation to list activity
+     */
     private void _goToListActivity()
     {
         String selDesert = _desertFrag.getSelectedDesert();
@@ -150,7 +177,9 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-
+    /**
+     * attach menu to the action bar
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -159,6 +188,9 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
+    /**
+     * handler for action menu selection
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -180,9 +212,4 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
-    {
-        this.getMenuInflater().inflate(R.menu.menu_main, menu);
-    }
 }

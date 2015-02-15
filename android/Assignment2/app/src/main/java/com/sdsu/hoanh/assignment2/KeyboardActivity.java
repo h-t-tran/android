@@ -12,7 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-
+/**
+ * This activity experiments with the keyboard display and entry.
+ */
 public class KeyboardActivity extends ActionBarActivity {
 
 
@@ -61,7 +63,10 @@ public class KeyboardActivity extends ActionBarActivity {
         });
     }
 
-    public void showSoftKeyboard(View view) {
+    /**
+     * show the keyboard.
+     */
+    private void showSoftKeyboard(View view) {
         if (view.requestFocus()) {
             InputMethodManager imm = (InputMethodManager)
                     getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -90,25 +95,4 @@ public class KeyboardActivity extends ActionBarActivity {
         imm.hideSoftInputFromWindow(txt.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS );
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_keyboard, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

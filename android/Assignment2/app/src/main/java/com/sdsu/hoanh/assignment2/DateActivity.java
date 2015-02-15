@@ -17,10 +17,13 @@ import java.io.OutputStream;
 import java.lang.String;
 import java.io.FileWriter;
 
-
+/**
+ * This activity experiments with Date entry and file IO
+ */
 public class DateActivity extends ActionBarActivity {
     public static final String DateSaveFilename = "assign2_date.txt";
     public static final String DATE_ENTRY_KEY = "com.sdsu.hoanh.assignment2.dataEntry";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +51,11 @@ public class DateActivity extends ActionBarActivity {
         });
     }
 
+    /**
+     * Save the string to disk
+     * @param fileContents - the content to save
+     * @return true if success, false if failed.
+     */
     private boolean _save(String fileContents) {
         boolean res = false;
         String fn = DateSaveFilename;
@@ -67,6 +75,9 @@ public class DateActivity extends ActionBarActivity {
         return res;
     }
 
+    /**
+     * Load the data from file.
+     */
     private void _load()
     {
         // read the date from file and set the EditText
@@ -90,25 +101,5 @@ public class DateActivity extends ActionBarActivity {
         }
 
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_date, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }
