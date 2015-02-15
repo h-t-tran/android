@@ -1,6 +1,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_goto_date" android:title="@string/menu_date_title"
+        android:icon="@android:drawable/ic_menu_day"
+        android:orderInCategory="100" app:showAsAction="ifRoom|withText" />
+    <item android:id="@+id/action_goto_list" android:title="@string/menu_list_title"
+        android:icon="@android:drawable/ic_menu_info_details"
+        android:orderInCategory="101" app:showAsAction="ifRoom|withText" />
+    <item android:id="@+id/action_goto_keyboard" android:title="@string/menu_keyboard_title"
+        android:icon="@android:drawable/ic_dialog_dialer"
+        android:orderInCategory="102" app:showAsAction="ifRoom|withText" />
+    <!--<item android:id="@+id/action_help" android:title="Help"-->
+        <!--android:icon="@android:drawable/ic_delete"-->
+        <!--android:orderInCategory="101" app:showAsAction="ifRoom|withText" />-->
 </menu>

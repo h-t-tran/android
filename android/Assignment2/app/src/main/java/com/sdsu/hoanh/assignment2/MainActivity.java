@@ -1,6 +1,8 @@
 package com.sdsu.hoanh.assignment2;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -18,7 +20,7 @@ import java.util.List;
 
 public class MainActivity extends ActionBarActivity implements DesertResultCallback {
 
-    private static final String _dateEntryText = "Date Entry";
+    private static String _dateEntryText = "Date Entry";
     private static final String _keyboardEntryText = "Keyboard Entry";
     private static final String _listSelText = "List Selection";
     public static final String KEYBOARD_DATA_KEY = "com.sdsu.hoanh.assignment2.keyboard_data_key";
@@ -26,6 +28,7 @@ public class MainActivity extends ActionBarActivity implements DesertResultCallb
     private String _selectDesert = null;
     private DesertFragment _desertFrag;
 
+    @TargetApi(11)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +40,10 @@ public class MainActivity extends ActionBarActivity implements DesertResultCallb
         }
 
         _setupGoButton();
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            //this.getActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
     }
 
     private void _setupGoButton()
@@ -106,6 +113,10 @@ public class MainActivity extends ActionBarActivity implements DesertResultCallb
 
     protected void onActivityResult(int reqCode, int resCode, Intent data)
     {
+        if(data == null)
+        {
+            return;
+        }
         // if the result is from the date activity, get the passed back date and display it.
         if(reqCode == Constants.DATE_ACTIVITY_RESULT_CODE)
         {
@@ -149,6 +160,8 @@ public class MainActivity extends ActionBarActivity implements DesertResultCallb
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+
         return true;
     }
 
@@ -160,8 +173,14 @@ public class MainActivity extends ActionBarActivity implements DesertResultCallb
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_goto_date) {
+            _goToDateActivity();
+        }
+        else if (id == R.id.action_goto_list) {
+            _goToListActivity();
+        }
+        else if (id == R.id.action_goto_keyboard) {
+            _goToKeyboardActivity();
         }
 
         return super.onOptionsItemSelected(item);

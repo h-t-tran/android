@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Assignment2</string>
+    <string name="app_name">Assignment #2</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_date">DateActivity</string>
@@ -13,4 +13,7 @@
     <string name="date_accept_btn_txt">Accept</string>
     <string name="keyboard_back_btn_txt">Back</string>
     <string name="keyboard_hide_btn_txt">Hide</string>
+    <string name="menu_list_title">List</string>
+    <string name="menu_keyboard_title">Keyboard</string>
+    <string name="menu_date_title">Date</string>
 </resources>

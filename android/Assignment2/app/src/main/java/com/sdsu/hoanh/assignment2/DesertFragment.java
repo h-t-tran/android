@@ -3,7 +3,10 @@ package com.sdsu.hoanh.assignment2;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -46,6 +49,7 @@ public class DesertFragment extends ListFragment {
         super.onCreate(bundle);
 
         //getActivity().setTitle("My List Fragment");
+  
 
         //
         // set up the dessert selection
@@ -70,6 +74,14 @@ public class DesertFragment extends ListFragment {
         _retrieveInputDesert();
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle bundle)
+    {
+        View view = super.onCreateView(inflater, parent, bundle);
+        Object bar = this.getActivity().getActionBar();
+
+        return view;
+    }
     /**
      * Get the desert passed in from the host activity and select the item in the list.
      */
@@ -112,7 +124,7 @@ public class DesertFragment extends ListFragment {
     {
         return _dessertArray.get(_selectedDesertIdx);
     }
-    
+
     @Override
     public void onAttach(Activity a) {
         super.onAttach(a);
