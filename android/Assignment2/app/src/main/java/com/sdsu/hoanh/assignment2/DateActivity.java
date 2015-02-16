@@ -1,9 +1,10 @@
 package com.sdsu.hoanh.assignment2;
 
 import android.content.Intent;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -15,12 +16,11 @@ import java.io.BufferedOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.String;
-import java.io.FileWriter;
 
 /**
  * This activity experiments with Date entry and file IO
  */
-public class DateActivity extends ActionBarActivity {
+public class DateActivity extends ActionBarActivityAbstract {
     public static final String DateSaveFilename = "assign2_date.txt";
     public static final String DATE_ENTRY_KEY = "com.sdsu.hoanh.assignment2.dataEntry";
 
@@ -31,26 +31,46 @@ public class DateActivity extends ActionBarActivity {
 
         final EditText et = (EditText) findViewById(R.id.date_entry_textbox);
         _load();
+        showAppIcon();
 
         Button goBtn = (Button)findViewById(R.id.date_accept);
         goBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String dateStr = et.getText().toString();
-                if(_save(dateStr))
-                {
-                    Intent data = new Intent();
-                    data.putExtra(DateActivity.DATE_ENTRY_KEY, dateStr);
-
-                    // send data back to the calling activity.
-                    DateActivity.this.setResult(RESULT_OK, data);
-                    DateActivity.this.finish();
-                }
-
+                DateActivity.this._saveAndGoBackToHomeActivity();
             }
         });
     }
 
+    private void _saveAndGoBackToHomeActivity()
+    {
+        EditText et = (EditText) findViewById(R.id.date_entry_textbox);
+        String dateStr = et.getText().toString();
+        if(_save(dateStr))
+        {
+            Intent data = new Intent();
+            data.putExtra(DateActivity.DATE_ENTRY_KEY, dateStr);
+
+            // send data back to the calling activity.
+            DateActivity.this.setResult(RESULT_OK, data);
+            DateActivity.this.finish();
+        }
+    }
+
+    /**
+     * handler for context menu.
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+
+            // pass back null data to signal calling activity nothing is changed
+            this.setResult(RESULT_OK, null);
+            this.finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
     /**
      * Save the string to disk
      * @param fileContents - the content to save

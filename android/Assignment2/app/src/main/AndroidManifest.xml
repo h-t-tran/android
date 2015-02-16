@@ -11,6 +11,11 @@
             android:uiOptions="splitActionBarWhenNarrow"
             android:name=".MainActivity"
             android:label="@string/app_name" >
+            <!-- by enabling this meta data, it will add the < Home Navigation icon next to the
+                 app icon which allows user to close the app.
+                 -->
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                        android:value=".MainActivity"/>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

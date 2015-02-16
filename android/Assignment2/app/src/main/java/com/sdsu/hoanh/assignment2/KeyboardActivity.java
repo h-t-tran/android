@@ -15,7 +15,7 @@ import android.widget.Spinner;
 /**
  * This activity experiments with the keyboard display and entry.
  */
-public class KeyboardActivity extends ActionBarActivity {
+public class KeyboardActivity extends ActionBarActivityAbstract {
 
 
     @Override
@@ -61,6 +61,9 @@ public class KeyboardActivity extends ActionBarActivity {
                 KeyboardActivity.this._handleHide();
             }
         });
+
+        showAppIcon();
+
     }
 
     /**
@@ -95,4 +98,12 @@ public class KeyboardActivity extends ActionBarActivity {
         imm.hideSoftInputFromWindow(txt.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS );
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            _handleBack();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

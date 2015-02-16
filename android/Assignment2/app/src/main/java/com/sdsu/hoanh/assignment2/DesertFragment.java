@@ -31,7 +31,8 @@ public class DesertFragment extends ListFragment {
     private static final int _invalid = -1;
     private int _selectedDesertIdx = _invalid;
     private List<String> _dessertArray = new ArrayList<String>();
-    private DesertResultCallback _desertCallbackClient;
+
+
     /**
      * Factory method to create a fragment with a bundle containing the passed in desert.
      * @param desert name of the desert we want to pass to the fragment
@@ -123,7 +124,7 @@ public class DesertFragment extends ListFragment {
      */
     public String getSelectedDesert()
     {
-        return _dessertArray.get(_selectedDesertIdx);
+        return _selectedDesertIdx == _invalid ? null :_dessertArray.get(_selectedDesertIdx);
     }
 
     /**

@@ -11,7 +11,7 @@ import android.widget.Button;
 /**
  * Display a fragment containing a list of activity
  */
-public class ListActivity extends ActionBarActivity {
+public class ListActivity extends ActionBarActivityAbstract {
 
     private DesertFragment _desertFrag;
 
@@ -35,6 +35,8 @@ public class ListActivity extends ActionBarActivity {
                 _handleBackButton();
             }
         });
+
+        showAppIcon();
     }
 
 
@@ -60,5 +62,19 @@ public class ListActivity extends ActionBarActivity {
         // send data back to the calling activity.
         this.setResult(RESULT_OK, data);
         this.finish();
+    }
+
+    /**
+     * To handle to the app icon Home button, we close this activity
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            // pass back null data to signal calling activity nothing is changed
+            this.setResult(RESULT_OK, null);
+            this.finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

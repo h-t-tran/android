@@ -11,6 +11,8 @@ package com.sdsu.hoanh.assignment2;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -47,12 +49,28 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        _showAppIcon();
+
         this._fillActivitySelectionSpinner();
         if (savedInstanceState == null) {
             _loadDesertListFragment();
         }
 
         _setupGoButton();
+    }
+
+    /**
+     * Enable the app icon.  we use getSupportActionBar() for backward compatibility
+     */
+    private void _showAppIcon() {
+
+        ActionBar bar = this.getSupportActionBar();
+
+        bar.setDisplayShowHomeEnabled(true);
+        bar.setLogo(R.drawable.ic_launcher);
+        bar.setDisplayUseLogoEnabled(true);
+        //bar.setDisplayHomeAsUpEnabled(true);
+
     }
 
     /**
@@ -131,14 +149,21 @@ public class MainActivity extends ActionBarActivity {
         if(reqCode == Constants.DATE_ACTIVITY_RESULT_CODE)
         {
             String date = data.getStringExtra(DateActivity.DATE_ENTRY_KEY);
-            EditText et = (EditText) findViewById(R.id.dataText);
-            et.setText(date);
+
+            // update the text only if it is not null
+            if(date != null) {
+                EditText et = (EditText) findViewById(R.id.dataText);
+                et.setText(date);
+            }
         }
         else if(reqCode == Constants.LIST_ACTIVITY_RESULT_CODE)
         {
             String desert = data.getStringExtra(ListActivity.DESERT_NAME_RESULT_KEY);
-            // update the listview with the new desert.
-            _desertFrag.setSelectedDesert(desert);
+            // update the listview with the new desert if it is available
+            if(desert != null)
+            {
+                _desertFrag.setSelectedDesert(desert);
+            }
         }
     }
 
@@ -188,6 +213,11 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
+    private void _goHome() {
+        if (NavUtils.getParentActivityName(this) != null) {
+            NavUtils.navigateUpFromSameTask(this);
+        }
+    }
     /**
      * handler for action menu selection
      */
@@ -208,7 +238,6 @@ public class MainActivity extends ActionBarActivity {
         else if (id == R.id.action_goto_keyboard) {
             _goToKeyboardActivity();
         }
-
         return super.onOptionsItemSelected(item);
     }
 
