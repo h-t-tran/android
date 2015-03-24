@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MapBaseAlbum</string>
+    <string name="title_activity_main">Map-Based Album</string>
+    <string name="title_activity_app">AppActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
