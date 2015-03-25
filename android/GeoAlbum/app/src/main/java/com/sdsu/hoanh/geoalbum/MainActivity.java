@@ -29,6 +29,15 @@ public class MainActivity extends ActionBarActivity {
                 MainActivity.this.showMap();
             }
         });
+
+
+        Button takePicButton = (Button)this.findViewById(R.id._btnTakePics);
+        takePicButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.this.takePicture();
+            }
+        });
     }
     private void showMap()
     {
@@ -44,6 +53,8 @@ public class MainActivity extends ActionBarActivity {
 
     private void takePicture()
     {
+        Intent i = new Intent(this, TakePictureActivity.class);
+        this.startActivity(i);
 
     }
 
