@@ -32,86 +32,8 @@ public class TakePictureActivity extends ActionBarActivity {
 
 
     int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
-    @SuppressWarnings("deprecation")
-    Camera mCamera;
-
-    @SuppressWarnings("deprecation")
-    private Camera.ShutterCallback mShutterCallback = new Camera.ShutterCallback() {
-        public void onShutter() {
-            // display the progress indicator
-            //mProgressContainer.setVisibility(View.VISIBLE);
-        }
-    };
-
-    @SuppressWarnings("deprecation")
-    private Camera.PictureCallback mJpegCallBack = new Camera.PictureCallback() {
-        public void onPictureTaken(byte[] data, Camera camera) {
-            // create a filename
-//            String filename = UUID.randomUUID().toString() + ".jpg";
-//            // save the jpeg data to disk
-//            FileOutputStream os = null;
-//            boolean success = true;
-//            try {
-//                os = getActivity().openFileOutput(filename, Context.MODE_PRIVATE);
-//                os.write(data);
-//            } catch (Exception e) {
-//                Log.e(TAG, "Error writing to file " + filename, e);
-//                success = false;
-//            } finally {
-//                try {
-//                    if (os != null)
-//                        os.close();
-//                } catch (Exception e) {
-//                    Log.e(TAG, "Error closing file " + filename, e);
-//                    success = false;
-//                }
-//            }
-//
-//            if (success) {
-//                // set the photo filename on the result intent
-//                if (success) {
-//                    Intent i = new Intent();
-//                    i.putExtra(EXTRA_PHOTO_FILENAME, filename);
-//                    getActivity().setResult(Activity.RESULT_OK, i);
-//                } else {
-//                    getActivity().setResult(Activity.RESULT_CANCELED);
-//                }
-//            }
-//            getActivity().finish();
-        }
-    };
 
 
-
-    @TargetApi(9)
-    @SuppressWarnings("deprecation")
-    @Override
-    public void onResume() {
-        super.onResume();
-        try {
-            mCamera = Camera.open(0);
-        }
-        catch(Exception e)
-        {
-            String s = e.getMessage();
-
-        }
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-//            mCamera = Camera.open(0);
-//        } else {
-//            mCamera = Camera.open();
-//        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        if (mCamera != null) {
-            mCamera.release();
-            mCamera = null;
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,18 +61,6 @@ public class TakePictureActivity extends ActionBarActivity {
                 // start the image capture Intent
                 startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
 
-
-//
-//                if (mCamera != null) {
-//                    try {
-//                        mCamera.takePicture(mShutterCallback, null, mJpegCallBack);
-//                    }
-//                    catch(Exception e)
-//                        {
-//                            String s = e.getMessage();
-//
-//                        }
-//                }
             }
         });
     }
@@ -158,6 +68,9 @@ public class TakePictureActivity extends ActionBarActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+
+            Uri uri = data.getData();
+
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
 
@@ -169,43 +82,43 @@ public class TakePictureActivity extends ActionBarActivity {
     public static final int MEDIA_TYPE_IMAGE = 1;
     public static final int MEDIA_TYPE_VIDEO = 2;
 
-    /** Create a file Uri for saving an image or video */
-    private static Uri getOutputMediaFileUri(int type){
-        return Uri.fromFile(getOutputMediaFile(type));
-    }
-
-    /** Create a File for saving an image or video */
-    private static File getOutputMediaFile(int type){
-        // To be safe, you should check that the SDCard is mounted
-        // using Environment.getExternalStorageState() before doing this.
-
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "MyCameraApp");
-        // This location works best if you want the created images to be shared
-        // between applications and persist after your app has been uninstalled.
-
-        // Create the storage directory if it does not exist
-        if (! mediaStorageDir.exists()){
-            if (! mediaStorageDir.mkdirs()){
-                Log.d("MyCameraApp", "failed to create directory");
-                return null;
-            }
-        }
-        // Create a media file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        File mediaFile;
-        if (type == MEDIA_TYPE_IMAGE){
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    "IMG_"+ timeStamp + ".jpg");
-        } else if(type == MEDIA_TYPE_VIDEO) {
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    "VID_"+ timeStamp + ".mp4");
-        } else {
-            return null;
-        }
-
-        return mediaFile;
-    }
+//    /** Create a file Uri for saving an image or video */
+//    private static Uri getOutputMediaFileUri(int type){
+//        return Uri.fromFile(getOutputMediaFile(type));
+//    }
+//
+//    /** Create a File for saving an image or video */
+//    private static File getOutputMediaFile(int type){
+//        // To be safe, you should check that the SDCard is mounted
+//        // using Environment.getExternalStorageState() before doing this.
+//
+//        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+//                Environment.DIRECTORY_PICTURES), "MyCameraApp");
+//        // This location works best if you want the created images to be shared
+//        // between applications and persist after your app has been uninstalled.
+//
+//        // Create the storage directory if it does not exist
+//        if (! mediaStorageDir.exists()){
+//            if (! mediaStorageDir.mkdirs()){
+//                Log.d("MyCameraApp", "failed to create directory");
+//                return null;
+//            }
+//        }
+//        // Create a media file name
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+//        File mediaFile;
+//        if (type == MEDIA_TYPE_IMAGE){
+//            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+//                    "IMG_"+ timeStamp + ".jpg");
+//        } else if(type == MEDIA_TYPE_VIDEO) {
+//            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+//                    "VID_"+ timeStamp + ".mp4");
+//        } else {
+//            return null;
+//        }
+//
+//        return mediaFile;
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
