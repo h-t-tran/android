@@ -11,5 +11,6 @@
     <string name="_picDesc">Description</string>
     <string name="_picLat">Latitude</string>
     <string name="_picLon">Longitude</string>
+    <string name="_picDate">Date</string>
 
 </resources>

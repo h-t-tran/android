@@ -14,31 +14,58 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginRight="4dp"
+            >
+            <ImageView
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:id="@+id/imageView2" />
 
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="200dp"
-            android:id="@+id/imageView2" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Title"
+                    android:id="@+id/textView" />
+
+                <EditText
+                    android:layout_width="271dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editText" />
+            </LinearLayout>
+
+
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/_picTitle"
-            style="?android:listSeparatorTextViewStyle"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/_picDesc"
             />
-        <EditText android:id="@+id/_picTitleEntry"
+        <EditText android:id="@+id/_picDescEntry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
             />
 
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/_picDesc"
-            style="?android:listSeparatorTextViewStyle"
+            android:text="@string/_picDate"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             />
-        <EditText android:id="@+id/_picDescEntry"
+        <EditText android:id="@+id/_picDateEntry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
@@ -48,7 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/_picLat"
-            style="?android:listSeparatorTextViewStyle"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             />
         <EditText android:id="@+id/_picLatEntry"
             android:layout_width="match_parent"
@@ -60,7 +87,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/_picLon"
-            style="?android:listSeparatorTextViewStyle"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             />
         <EditText android:id="@+id/_picLonEntry"
             android:layout_width="match_parent"
@@ -69,11 +96,5 @@
             />
 
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Snap"
-            android:id="@+id/_takePic"
-            android:layout_gravity="center_horizontal|bottom" />
     </LinearLayout>
 </RelativeLayout>
