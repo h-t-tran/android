@@ -37,7 +37,7 @@
                 <EditText
                     android:layout_width="271dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/editText" />
+                    android:id="@+id/_picTitle" />
             </LinearLayout>
 
 
@@ -92,12 +92,12 @@
             android:layout_marginRight="16dp"
             />
 
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/_acceptPic"
-            android:id="@+id/_acceptPhoto"
-            android:layout_gravity="center_horizontal|bottom" />
+        <!--<Button-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/_acceptPic"-->
+            <!--android:id="@+id/_acceptPhoto"-->
+            <!--android:layout_gravity="center_horizontal|bottom" />-->
     </LinearLayout>
     <!-- TODO: Update blank fragment layout -->
     <!--<TextView android:layout_width="match_parent" android:layout_height="match_parent"-->

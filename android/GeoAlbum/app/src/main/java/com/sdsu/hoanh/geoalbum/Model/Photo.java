@@ -3,14 +3,17 @@ package com.sdsu.hoanh.geoalbum.Model;
 
 import android.graphics.Bitmap;
 
-public class Photo {
+import java.util.Date;
 
+public class Photo {
+    private int id;
     private double lat;
     private double lon;
     private String title;
     private String desc;
     private String imagePath;
     private Bitmap image;
+    private Date date;
 
     public double getLon() {
         return lon;
@@ -66,4 +69,19 @@ public class Photo {
         image = bmp;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

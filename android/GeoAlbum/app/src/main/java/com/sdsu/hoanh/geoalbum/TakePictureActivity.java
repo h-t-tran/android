@@ -47,14 +47,20 @@ public class TakePictureActivity extends ActionBarActivity {
                     .commit();
         }
 
-//        Button takePictureButton = (Button)this.findViewById(R.id.button);
-//        takePictureButton.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                TakePictureActivity.this.takePicture();
-//            }
-//        });
+        Button acceptButton = (Button)this.findViewById(R.id._okPhoto);
+        acceptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TakePictureActivity.this.savePhoto();
+            }
+        });
 
         takePicture();
+    }
+
+    private void savePhoto()
+    {
+
     }
 
     private void takePicture()
