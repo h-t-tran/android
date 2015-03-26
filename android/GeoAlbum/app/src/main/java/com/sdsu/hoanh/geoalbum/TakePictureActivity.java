@@ -1,7 +1,9 @@
 package com.sdsu.hoanh.geoalbum;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
@@ -33,49 +35,76 @@ public class TakePictureActivity extends ActionBarActivity {
 
     int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_picture);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new PicDetailFragment())
                     .commit();
         }
 
-        Button takePictureButton = (Button)this.findViewById(R.id.button);
-        takePictureButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+//        Button takePictureButton = (Button)this.findViewById(R.id.button);
+//        takePictureButton.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                TakePictureActivity.this.takePicture();
+//            }
+//        });
 
-                // using intent
+        takePicture();
+    }
 
-                Uri fileUri;
-                // create Intent to take a picture and return control to the calling application
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+    private void takePicture()
+    {
+        Uri fileUri;
+        // create Intent to take a picture and return control to the calling application
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-               // fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
-                //intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
+        // fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
+        //intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
 
-                // start the image capture Intent
-                startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-
-            }
-        });
+        // start the image capture Intent
+        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
 
+            // get the pic and display the thumbnail.
             Uri uri = data.getData();
 
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
 
-            ImageView imageView = (ImageView)this.findViewById(R.id.imageView);
+            ImageView imageView = (ImageView)this.findViewById(R.id._picImageView);//_picThumbnailImageView);
             imageView.setImageBitmap(imageBitmap);
+
+            String   selectedImagePath = getRealPathFromURI(uri);
+            Log.i("GeoAlbum","image path " + selectedImagePath);
+        }
+    }
+
+    /**
+     * Taken from http://androidamaranthine.blogspot.com/2013/01/get-path-of-stored-image.html
+     * @param contentUri
+     * @return
+     */
+    @SuppressWarnings("deprecation")  // ignore deprecation of managedQuery()
+    public String getRealPathFromURI(Uri contentUri)
+    {
+        try
+        {
+            String[] proj = {MediaStore.Images.Media.DATA};
+            Cursor cursor = managedQuery(contentUri, proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        }
+        catch (Exception e)
+        {
+            return contentUri.getPath();
         }
     }
 
@@ -145,16 +174,16 @@ public class TakePictureActivity extends ActionBarActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_take_picture, container, false);
-            return rootView;
-        }
-    }
+//    public static class PicDetailFragment extends Fragment {
+//
+//        public PicDetailFragment() {
+//        }
+//
+//        @Override
+//        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                                 Bundle savedInstanceState) {
+//            View rootView = inflater.inflate(R.layout.fragment_take_picture, container, false);
+//            return rootView;
+//        }
+//    }
 }
