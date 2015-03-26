@@ -93,11 +93,11 @@ public class TakePictureActivity extends ActionBarActivity {
             picDetailFagment.setPhoto(photo);
         }
         // user accepts the pic detailed from the pic detail fragment
-        else if(requestCode == Constants.ACCEPT_PIC_DETAIL_RESULT_CODE && resultCode == RESULT_OK )
-        {
-            Photo photo = this.picDetailFagment.getPhoto();
-            // save the photo in database.
-        }
+//        else if(requestCode == Constants.ACCEPT_PIC_DETAIL_RESULT_CODE && resultCode == RESULT_OK )
+//        {
+//            Photo photo = this.picDetailFagment.getPhoto();
+//
+//        }
     }
 
     /**

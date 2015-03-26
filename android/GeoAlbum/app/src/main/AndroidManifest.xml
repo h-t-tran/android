@@ -13,7 +13,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -42,6 +44,10 @@
         <activity
             android:name=".TakePictureActivity"
             android:label="@string/title_activity_take_picture" >
+        </activity>
+        <activity
+            android:name=".PhotoDetailFragment"
+            android:label="@string/title_activity_photo_detail_fragment" >
         </activity>
     </application>
 
