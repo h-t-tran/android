@@ -10,6 +10,7 @@ public class Photo {
     private String title;
     private String desc;
     private String imagePath;
+    private Bitmap image;
 
     public double getLon() {
         return lon;
@@ -53,8 +54,16 @@ public class Photo {
 
     public Bitmap getImage()
     {
-        // TODO:
-        return null;
+        if(image == null)
+        {
+            // TODO: generate image from path
+        }
+        return image;
+    }
+
+    public void setImage(Bitmap bmp)
+    {
+        image = bmp;
     }
 
 }

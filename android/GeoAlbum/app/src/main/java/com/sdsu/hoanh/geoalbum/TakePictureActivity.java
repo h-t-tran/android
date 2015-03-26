@@ -23,6 +23,8 @@ import android.hardware.Camera;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.sdsu.hoanh.geoalbum.Model.Photo;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
@@ -32,8 +34,8 @@ import java.util.UUID;
 
 public class TakePictureActivity extends ActionBarActivity {
 
-
-    int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+    private PicDetailFragment picDetailFagment = new PicDetailFragment();
+    private final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,7 @@ public class TakePictureActivity extends ActionBarActivity {
         setContentView(R.layout.activity_take_picture);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PicDetailFragment())
+                    .add(R.id.container, picDetailFagment)
                     .commit();
         }
 
@@ -70,6 +72,8 @@ public class TakePictureActivity extends ActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        // is this from camera intent?
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
 
             // get the pic and display the thumbnail.
@@ -78,11 +82,21 @@ public class TakePictureActivity extends ActionBarActivity {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
 
-            ImageView imageView = (ImageView)this.findViewById(R.id._picImageView);//_picThumbnailImageView);
-            imageView.setImageBitmap(imageBitmap);
+//            ImageView imageView = (ImageView)this.findViewById(R.id._picImageView);//_picThumbnailImageView);
+//            imageView.setImageBitmap(imageBitmap);
+//
+//            String   selectedImagePath = getRealPathFromURI(uri);
+//            Log.i("GeoAlbum","image path " + selectedImagePath);
 
-            String   selectedImagePath = getRealPathFromURI(uri);
-            Log.i("GeoAlbum","image path " + selectedImagePath);
+            Photo photo = new Photo();
+            photo.setImage(imageBitmap);
+            picDetailFagment.setPhoto(photo);
+        }
+        // user accepts the pic detailed from the pic detail fragment
+        else if(requestCode == Constants.ACCEPT_PIC_DETAIL_RESULT_CODE && resultCode == RESULT_OK )
+        {
+            Photo photo = this.picDetailFagment.getPhoto();
+            // save the photo in database.
         }
     }
 
