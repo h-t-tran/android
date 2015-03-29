@@ -1,27 +1,29 @@
 package com.sdsu.hoanh.geoalbum;
 
-import android.app.Activity;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.sdsu.hoanh.geoalbum.Model.GpsProvider;
+import com.sdsu.hoanh.geoalbum.Model.GpsReceiver;
 import com.sdsu.hoanh.geoalbum.Model.Photo;
 import com.sdsu.hoanh.geoalbum.Model.PhotoModel;
 
 public class PicDetailFragment extends Fragment {
 
-    private Photo photo;
+    private Photo _photo;
 
-    private TextView titleTextView;
-    private TextView descTextView;
-    private TextView latTextView;
-    private TextView lonTextView;
-    private TextView dateTextView;
+    private TextView _titleTextView;
+    private TextView _descTextView;
+    private TextView _latTextView;
+    private TextView _lonTextView;
+    private TextView _dateTextView;
 
     public PicDetailFragment() {
     }
@@ -31,10 +33,10 @@ public class PicDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_image_detail, container, false);
 
-        titleTextView = (TextView)rootView.findViewById(R.id._picTitle);
-        descTextView = (TextView)rootView.findViewById(R.id._picDescEntry);
-        latTextView = (TextView)rootView.findViewById(R.id._picLatEntry);
-        lonTextView = (TextView)rootView.findViewById(R.id._picLonEntry);
+        _titleTextView = (TextView)rootView.findViewById(R.id._picTitle);
+        _descTextView = (TextView)rootView.findViewById(R.id._picDescEntry);
+        _latTextView = (TextView)rootView.findViewById(R.id._picLatEntry);
+        _lonTextView = (TextView)rootView.findViewById(R.id._picLonEntry);
         //lonTextView = (TextView)rootView.findViewById(R.id._picLonEntry);
 
 //        Button acceptButton = (Button)rootView.findViewById(R.id._acceptPhoto);
@@ -52,25 +54,37 @@ public class PicDetailFragment extends Fragment {
         // save the photo in database.
         Photo photo = new Photo();
 
-        photo.setTitle(titleTextView.getText().toString());
-        photo.setLat(Double.valueOf(latTextView.getText().toString()));
-        photo.setLon(Double.valueOf(lonTextView.getText().toString()));
-        photo.setDesc(descTextView.getText().toString());
+        photo.setTitle(_titleTextView.getText().toString());
+        photo.setLat(Double.valueOf(_latTextView.getText().toString()));
+        photo.setLon(Double.valueOf(_lonTextView.getText().toString()));
+        photo.setDesc(_descTextView.getText().toString());
 
         PhotoModel.getInstance().savePhoto(photo);
     }
 
     public Photo getPhoto() {
-        return photo;
+        return _photo;
     }
 
     public void setPhoto(Photo photo) {
-        this.photo = photo;
+        this._photo = photo;
 
         // display data into
 
         ImageView imageView = (ImageView)this.getActivity().findViewById(R.id._picImageView);
         imageView.setImageBitmap(photo.getImage());
 
+        // get the lat/lon and display it.
+        Location currLoc = GpsProvider.getInstance().getCurrLocation();
+        if(currLoc == null){
+            Toast.makeText(this.getActivity(),
+                    "No location.  GPS maybe disabled", Toast.LENGTH_LONG).show();
+            _latTextView.setText("0.0");
+            _lonTextView.setText("0.0");
+        }
+        else {
+            _latTextView.setText(Double.toString(currLoc.getLatitude()));
+            _lonTextView.setText(Double.toString(currLoc.getLongitude()));
+        }
     }
 }

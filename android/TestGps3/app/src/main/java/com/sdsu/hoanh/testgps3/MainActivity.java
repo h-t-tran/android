@@ -1,6 +1,5 @@
-package com.sdsu.hoanh.geoalbum;
+package com.sdsu.hoanh.testgps3;
 
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,61 +7,27 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import com.sdsu.hoanh.geoalbum.Model.GpsProvider;
-
 
 public class MainActivity extends ActionBarActivity {
 
+    RunManager runMgr;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        wireUpHandlers();
 
-        // start GPS monitoring
-        GpsProvider gpsProvider = new GpsProvider();
-        gpsProvider.start(this);
-    }
-
-
-    private void wireUpHandlers()
-    {
-        Button showMapButton = (Button)this.findViewById(R.id._btnMap);
-        showMapButton.setOnClickListener(new View.OnClickListener() {
+        runMgr = RunManager.get(this);
+        Button mStartButton = (Button)findViewById(R.id.button);
+        mStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.this.showMap();
+                runMgr.startLocationUpdates();
             }
         });
 
-
-        Button takePicButton = (Button)this.findViewById(R.id._btnTakePics);
-        takePicButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity.this.takePicture();
-            }
-        });
-    }
-    private void showMap()
-    {
-        Intent i = new Intent(this, MapsActivity.class);
-        this.startActivity(i);
-
     }
 
-    private void showPicListing()
-    {
-
-    }
-
-    private void takePicture()
-    {
-        Intent i = new Intent(this, TakePictureActivity.class);
-        this.startActivity(i);
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
