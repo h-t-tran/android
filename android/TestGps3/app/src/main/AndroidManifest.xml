@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sdsu.hoanh.testgps3" >
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-feature android:required="true" android:name="android.hardware.location.gps"/>
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-feature
+        android:name="android.hardware.location.gps"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -19,12 +23,18 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".LocationReceiver"
-                        android:exported="false">
+        <receiver
+            android:name=".LocationReceiver"
+            android:exported="false" >
             <intent-filter>
-            <action android:name="com.sdsu.hoanh.testgps.ACTION_LOCATION"/>
+                <action android:name="com.sdsu.hoanh.testgps.ACTION_LOCATION" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".MainActivity2"
+            android:label="@string/title_activity_main_activity2" >
+        </activity>
     </application>
 
 </manifest>

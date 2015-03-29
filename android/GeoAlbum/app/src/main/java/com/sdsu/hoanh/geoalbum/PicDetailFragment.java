@@ -83,8 +83,28 @@ public class PicDetailFragment extends Fragment {
             _lonTextView.setText("0.0");
         }
         else {
-            _latTextView.setText(Double.toString(currLoc.getLatitude()));
-            _lonTextView.setText(Double.toString(currLoc.getLongitude()));
+            _latTextView.setText(degreeToLatLonStr(currLoc.getLatitude(), true));
+            _lonTextView.setText(degreeToLatLonStr(currLoc.getLongitude(), false));
         }
+    }
+
+    /**
+     * convert decimal degree to latitude or longitude string
+     * @return the string representing the degree with direction.
+     */
+    private static String degreeToLatLonStr(double degree, boolean isLatitude)
+    {
+        StringBuffer resultDegreeString = new StringBuffer();
+        resultDegreeString.append(Double.toString(Math.abs(degree)));
+        if(isLatitude) {
+            resultDegreeString.append(degree >= 0 ? "N" : "S");
+        }
+        else {
+            // it is longitude
+            resultDegreeString.append(degree >= 0 ? "E" : "W");
+
+        }
+
+        return resultDegreeString.toString();
     }
 }
