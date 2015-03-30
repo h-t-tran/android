@@ -27,6 +27,14 @@ public class MainActivity extends ActionBarActivity {
 
         // bootstrap the database with this context.
         PhotoDatabaseHelper database = PhotoDatabaseHelper.createInstance(this);
+        //_testDbInsert(database);
+
+        // start GPS monitoring
+        GpsProvider gpsProvider = new GpsProvider();
+        gpsProvider.start(this);
+    }
+
+    private void _testDbInsert(PhotoDatabaseHelper database) {
         Photo p = new Photo();
         p.setImagePath("the path2" + (new Date()).toString());
         p.setLon(1.0);
@@ -37,9 +45,6 @@ public class MainActivity extends ActionBarActivity {
         database.insertOrUpdateTeacher(p);
 
         database.getAllPhotos();
-        // start GPS monitoring
-        GpsProvider gpsProvider = new GpsProvider();
-        gpsProvider.start(this);
     }
 
 

@@ -60,7 +60,6 @@ public class PhotoDatabaseHelper  extends SQLiteOpenHelper {
         try {
 
             // CREATE TABLE IF NOT EXISTS
-            // create teacher table
             String sqlCreatePhtoTable = "create table " +
                     PHOTO_TABLE_NAME +
                     " (" + ID_PK_COL + " integer primary key autoincrement, " +

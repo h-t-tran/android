@@ -69,6 +69,9 @@ public class TakePictureActivity extends ActionBarActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // user cancel, so we want to delete the image first
+                TakePictureActivity.this._picDetailFagment.deletePhoto();
                 TakePictureActivity.this.finish();
             }
         });

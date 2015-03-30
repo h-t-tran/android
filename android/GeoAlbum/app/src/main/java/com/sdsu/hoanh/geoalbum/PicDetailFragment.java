@@ -15,6 +15,7 @@ import com.sdsu.hoanh.geoalbum.Model.GpsProvider;
 import com.sdsu.hoanh.geoalbum.Model.Photo;
 import com.sdsu.hoanh.geoalbum.Model.PhotoModel;
 
+import java.io.File;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -53,6 +54,17 @@ public class PicDetailFragment extends Fragment {
         return rootView;
     }
 
+    public boolean deletePhoto()
+    {
+        boolean result = false;
+        // is the path exist?
+        if(_photo.getImagePath() != null) {
+            File fileToDelete = new File(_photo.getImagePath());
+            result = fileToDelete.delete();
+        }
+
+        return result;
+    }
     /**
      * Update the photo with the entered title and desc.  Then save it
      * @return true if the photo is saved.  false if user did not enter title or desc
