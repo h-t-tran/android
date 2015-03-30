@@ -31,7 +31,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Title"
+                    android:text="@string/_picTitle"
                     android:id="@+id/textView" />
 
                 <EditText
@@ -55,6 +55,30 @@
             android:layout_marginRight="16dp"
             />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/_picLocation"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            />
+        <EditText android:id="@+id/_picLocationEntry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:enabled="false"
+            />
+
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/_picLon"-->
+            <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+            <!--/>-->
+        <!--<EditText android:id="@+id/_picLonEntry"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginRight="16dp"-->
+            <!--/>-->
 
         <TextView
             android:layout_width="match_parent"
@@ -62,45 +86,33 @@
             android:text="@string/_picDate"
             android:textAppearance="?android:attr/textAppearanceSmall"
             />
+
+        <!--<TextView android:id="@+id/_picDateEntry"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="March 10, 2015"-->
+            <!--android:layout_marginBottom="10dp"-->
+            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+            <!--/>-->
+
         <EditText android:id="@+id/_picDateEntry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
-            />
+            android:enabled="false" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/_picLat"
+            android:text="@string/_picPath"
             android:textAppearance="?android:attr/textAppearanceSmall"
             />
-        <EditText android:id="@+id/_picLatEntry"
+
+        <EditText android:id="@+id/_picPathEntry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
-            />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/_picLon"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            />
-        <EditText android:id="@+id/_picLonEntry"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
-            />
-
-        <!--<Button-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="@string/_acceptPic"-->
-            <!--android:id="@+id/_acceptPhoto"-->
-            <!--android:layout_gravity="center_horizontal|bottom" />-->
+            android:enabled="false" />
     </LinearLayout>
-    <!-- TODO: Update blank fragment layout -->
-    <!--<TextView android:layout_width="match_parent" android:layout_height="match_parent"-->
-        <!--android:text="@string/hello_blank_fragment" />-->
 
 </FrameLayout>

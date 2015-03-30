@@ -29,12 +29,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 import java.util.UUID;
 
 
 public class TakePictureActivity extends ActionBarActivity {
 
-    private PicDetailFragment picDetailFagment = new PicDetailFragment();
+
+    private PicDetailFragment _picDetailFagment = new PicDetailFragment();
     private final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 
     @Override
@@ -43,34 +45,42 @@ public class TakePictureActivity extends ActionBarActivity {
         setContentView(R.layout.activity_take_picture);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, picDetailFagment)
+                    .add(R.id.container, _picDetailFagment)
                     .commit();
         }
+
+
 
         Button acceptButton = (Button)this.findViewById(R.id._okPhoto);
         acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TakePictureActivity.this.savePhoto();
+
+                // save pic
+                if(TakePictureActivity.this._picDetailFagment.savePhoto()) {
+
+                    // once saved return to main activity
+                    TakePictureActivity.this.finish();
+                }
+            }
+        });
+
+        Button cancelButton = (Button)this.findViewById(R.id._cancelPhoto);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TakePictureActivity.this.finish();
             }
         });
 
         takePicture();
     }
 
-    private void savePhoto()
-    {
-
-    }
 
     private void takePicture()
     {
-        Uri fileUri;
         // create Intent to take a picture and return control to the calling application
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-        // fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
-        //intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
 
         // start the image capture Intent
         startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
@@ -79,7 +89,8 @@ public class TakePictureActivity extends ActionBarActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        // is this from camera intent?
+        // is this from camera intent?  If so, get the photo and tell the fragment to display
+        // its detail.
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
 
             // get the pic and display the thumbnail.
@@ -88,22 +99,14 @@ public class TakePictureActivity extends ActionBarActivity {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
 
-//            ImageView imageView = (ImageView)this.findViewById(R.id._picImageView);//_picThumbnailImageView);
-//            imageView.setImageBitmap(imageBitmap);
-//
-//            String   selectedImagePath = getRealPathFromURI(uri);
-//            Log.i("GeoAlbum","image path " + selectedImagePath);
-
             Photo photo = new Photo();
             photo.setImage(imageBitmap);
-            picDetailFagment.setPhoto(photo);
+            photo.setDate(new Date());
+            photo.setImagePath(getRealPathFromURI(uri));
+
+            _picDetailFagment.setPhoto(photo);
         }
-        // user accepts the pic detailed from the pic detail fragment
-//        else if(requestCode == Constants.ACCEPT_PIC_DETAIL_RESULT_CODE && resultCode == RESULT_OK )
-//        {
-//            Photo photo = this.picDetailFagment.getPhoto();
-//
-//        }
+
     }
 
     /**

@@ -59,4 +59,5 @@ public class GpsProvider {
         int flags = shouldCreate ? 0 : PendingIntent.FLAG_NO_CREATE;
         return PendingIntent.getBroadcast(_owningActivityCtx, 0, broadcast, flags);
     }
+
 }

@@ -3,7 +3,7 @@
 
     <string name="app_name">GeoAlbum</string>
     <string name="title_activity_maps">Map</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Geo Album</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_take_picture">Take Picture</string>
@@ -12,8 +12,12 @@
     <string name="_picLat">Latitude</string>
     <string name="_picLon">Longitude</string>
     <string name="_picDate">Date</string>
+    <string name="_picPath">Path</string>
     <string name="_acceptPic">Accept</string>
     <string name="_cancelPic">Cancel</string>
+    <string name="_picLocation">Location</string>
+
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_photo_detail_fragment">PhotoDetailFragment</string>
 
