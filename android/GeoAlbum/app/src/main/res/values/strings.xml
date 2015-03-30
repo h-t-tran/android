@@ -16,9 +16,8 @@
     <string name="_acceptPic">Accept</string>
     <string name="_cancelPic">Cancel</string>
     <string name="_picLocation">Location</string>
-
-
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_photo_detail_fragment">PhotoDetailFragment</string>
+    <string name="title_activity_picture_detail">PictureDetailActivity</string>
 
 </resources>

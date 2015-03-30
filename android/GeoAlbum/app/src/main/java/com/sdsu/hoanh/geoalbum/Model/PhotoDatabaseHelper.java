@@ -18,7 +18,7 @@ import java.util.List;
 
 public class PhotoDatabaseHelper  extends SQLiteOpenHelper {
 
-    private static final SimpleDateFormat _dateFormatter = new SimpleDateFormat("d-MMM-yyyy HH:mm:ss");
+    public static final SimpleDateFormat _dateFormatter = new SimpleDateFormat("d-MMM-yyyy HH:mm:ss");
     public static final String DB_NAME = "photo4.sqlite";
     public static final int VERSION = 1;
     private static final String PHOTO_TABLE_NAME = "photo";
@@ -39,7 +39,7 @@ public class PhotoDatabaseHelper  extends SQLiteOpenHelper {
      * Create a singleton of the the database helper using the passed in contenxt
      * @return the TeacherDatabaseHelper singleton
      */
-    public static PhotoDatabaseHelper createInstance(Context appContext)
+    public static PhotoDatabaseHelper getInstance(Context appContext)
     {
         if(_instance == null)
         {
@@ -146,34 +146,7 @@ public class PhotoDatabaseHelper  extends SQLiteOpenHelper {
 
             // keep looping until end of query
             do {
-                // get  the  data into array,or class variable
-                String title = cursor.getString(cursor.getColumnIndex(TITLE_COL));
-                int id = cursor.getInt(cursor.getColumnIndex(ID_PK_COL));
-                String desc = cursor.getString(cursor.getColumnIndex(DESC_COL));
-                double latitude = cursor.getDouble(cursor.getColumnIndex(LATITUDE_COL));
-                double longitude = cursor.getDouble(cursor.getColumnIndex(LONGITUDE_COL));
-                String imgPath = cursor.getString(cursor.getColumnIndex(IMAGE_PATH_COL));
-
-                String dateStr = cursor.getString(cursor.getColumnIndex(DATE_COL));
-
-                // create new photo
-                Photo photo = new Photo();
-                photo.setId(id);
-                photo.setTitle(title);
-                photo.setDesc(desc);
-                photo.setImagePath(imgPath);
-                photo.setLat(latitude);
-                photo.setLon(longitude);
-
-                // save the date
-                try {
-                    photo.setDate(_dateFormatter.parse(dateStr));
-                }
-                catch (ParseException e) {
-                    // if error set the date to 1970
-                    photo.setDate(new Date(0));
-                }
-
+                Photo photo = _generatePhotoFromCursor(cursor);
                 photos.add(photo);
 
             } while (cursor.moveToNext());
@@ -181,6 +154,37 @@ public class PhotoDatabaseHelper  extends SQLiteOpenHelper {
         db.close();
 
         return photos;
+    }
+
+    private Photo _generatePhotoFromCursor(Cursor cursor) {
+        // get  the  data into array,or class variable
+        String title = cursor.getString(cursor.getColumnIndex(TITLE_COL));
+        int id = cursor.getInt(cursor.getColumnIndex(ID_PK_COL));
+        String desc = cursor.getString(cursor.getColumnIndex(DESC_COL));
+        double latitude = cursor.getDouble(cursor.getColumnIndex(LATITUDE_COL));
+        double longitude = cursor.getDouble(cursor.getColumnIndex(LONGITUDE_COL));
+        String imgPath = cursor.getString(cursor.getColumnIndex(IMAGE_PATH_COL));
+
+        String dateStr = cursor.getString(cursor.getColumnIndex(DATE_COL));
+
+        // create new photo
+        Photo photo = new Photo();
+        photo.setId(id);
+        photo.setTitle(title);
+        photo.setDesc(desc);
+        photo.setImagePath(imgPath);
+        photo.setLat(latitude);
+        photo.setLon(longitude);
+
+        // save the date
+        try {
+            photo.setDate(_dateFormatter.parse(dateStr));
+        }
+        catch (ParseException e) {
+            // if error set the date to 1970
+            photo.setDate(new Date(0));
+        }
+        return photo;
     }
 
     public List<Photo> getPhotos(String searchCriteria)
@@ -191,7 +195,24 @@ public class PhotoDatabaseHelper  extends SQLiteOpenHelper {
 
     public Photo getPhoto(int photoId)
     {
-        return new Photo();
+        Photo photo = null;
+        String selectQuery = "SELECT  * FROM " + PHOTO_TABLE_NAME +
+                        " WHERE " + ID_PK_COL + " = " + photoId;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                // get  the  data into array,or class variable
+                photo = _generatePhotoFromCursor(cursor);
+
+                // once we find the photo, we are done.
+                break;
+            } while (cursor.moveToNext());
+        }
+        db.close();
+
+        return photo;
     }
 
     private ContentValues getPhotoContentValues(Photo photo) {

@@ -68,17 +68,6 @@
             android:enabled="false"
             />
 
-        <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="@string/_picLon"-->
-            <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
-            <!--/>-->
-        <!--<EditText android:id="@+id/_picLonEntry"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginRight="16dp"-->
-            <!--/>-->
 
         <TextView
             android:layout_width="match_parent"
@@ -87,13 +76,6 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             />
 
-        <!--<TextView android:id="@+id/_picDateEntry"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="March 10, 2015"-->
-            <!--android:layout_marginBottom="10dp"-->
-            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
-            <!--/>-->
 
         <EditText android:id="@+id/_picDateEntry"
             android:layout_width="match_parent"

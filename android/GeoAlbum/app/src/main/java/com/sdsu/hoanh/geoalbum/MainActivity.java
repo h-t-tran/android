@@ -26,7 +26,7 @@ public class MainActivity extends ActionBarActivity {
         wireUpHandlers();
 
         // bootstrap the database with this context.
-        PhotoDatabaseHelper database = PhotoDatabaseHelper.createInstance(this);
+        PhotoDatabaseHelper database = PhotoDatabaseHelper.getInstance(this);
         //_testDbInsert(database);
 
         // start GPS monitoring
@@ -45,6 +45,8 @@ public class MainActivity extends ActionBarActivity {
         database.insertOrUpdateTeacher(p);
 
         database.getAllPhotos();
+        Photo photo = database.getPhoto(3);
+
     }
 
 
@@ -66,6 +68,17 @@ public class MainActivity extends ActionBarActivity {
                 MainActivity.this.takePicture();
             }
         });
+
+
+        Button showPhotoListing = (Button)this.findViewById(R.id._btnTableAlbum);
+        showPhotoListing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.this.showPicListing();
+            }
+        });
+
+
     }
     private void showMap()
     {
@@ -76,6 +89,8 @@ public class MainActivity extends ActionBarActivity {
 
     private void showPicListing()
     {
+        Intent i = new Intent(this, PictureDetailActivity.class);
+        this.startActivity(i);
 
     }
 

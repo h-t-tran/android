@@ -57,10 +57,6 @@ public class Photo {
 
     public Bitmap getImage()
     {
-        if(image == null)
-        {
-            // TODO: generate image from path
-        }
         return image;
     }
 

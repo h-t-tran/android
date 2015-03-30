@@ -16,9 +16,10 @@ public class PhotoModel {
         return instance;
     }
 
-    public void savePhoto(Photo photo)
+    public boolean savePhoto(Photo photo)
     {
-
+        return PhotoDatabaseHelper.getInstance(null)
+                        .insertOrUpdateTeacher(photo);
     }
 
     public Photo getPhoto(int photoId)

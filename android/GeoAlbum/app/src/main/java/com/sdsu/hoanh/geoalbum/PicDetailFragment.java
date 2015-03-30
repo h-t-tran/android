@@ -1,8 +1,10 @@
 package com.sdsu.hoanh.geoalbum;
 
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +15,14 @@ import android.widget.Toast;
 
 import com.sdsu.hoanh.geoalbum.Model.GpsProvider;
 import com.sdsu.hoanh.geoalbum.Model.Photo;
+import com.sdsu.hoanh.geoalbum.Model.PhotoDatabaseHelper;
 import com.sdsu.hoanh.geoalbum.Model.PhotoModel;
 
 import java.io.File;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Random;
 
 public class PicDetailFragment extends Fragment {
@@ -32,7 +36,7 @@ public class PicDetailFragment extends Fragment {
     private EditText _titleTextView;
     private EditText _descTextView;
     private EditText _locationTextEntry;
-    //private EditText _lonTextView;
+    private ImageView _imageView;
     private TextView _dateTextView;
     private TextView _pathTextView;
 
@@ -47,9 +51,19 @@ public class PicDetailFragment extends Fragment {
         _titleTextView = (EditText)rootView.findViewById(R.id._picTitle);
         _descTextView = (EditText)rootView.findViewById(R.id._picDescEntry);
         _locationTextEntry = (EditText)rootView.findViewById(R.id._picLocationEntry);
-        //_lonTextView = (EditText)rootView.findViewById(R.id._picLonEntry);
+        _imageView = (ImageView)rootView.findViewById(R.id._picImageView);
         _dateTextView = (TextView)rootView.findViewById(R.id._picDateEntry);
         _pathTextView = (TextView)rootView.findViewById(R.id._picPathEntry);
+
+        // TEST CODE
+        PhotoDatabaseHelper db = PhotoDatabaseHelper.getInstance(null);
+        //List<Photo> photos = db.getAllPhotos();
+        Photo photo = db.getPhoto(3);
+        if(photo != null)
+        {
+            this.setExistingPhoto(photo);
+            //this.setExistingPhoto(photos.get(photos.size() - 1));
+        }
 
         return rootView;
     }
@@ -86,24 +100,63 @@ public class PicDetailFragment extends Fragment {
             _photo.setTitle(title);
             _photo.setDesc(desc);
 
-            PhotoModel.getInstance().savePhoto(_photo);
-            isSaved = true;
+            if(PhotoModel.getInstance().savePhoto(_photo)) {
+                isSaved = true;
+            }
+            else {
+                Toast.makeText(this.getActivity(),
+                        "Unable to save photo.", Toast.LENGTH_LONG).show();
+            }
+
         }
 
         return isSaved;
     }
 
-   // public Photo getPhoto() {
-   //     return _photo;
-   // }
-
-    public void setPhoto(Photo photo) {
+    /**
+     * inform the fragment of an existing photo.
+     */
+    public void setExistingPhoto(Photo photo)
+    {
         this._photo = photo;
 
-        // display data into
+        // set the image if exist, else use the image path.
+        if(photo.getImage() != null) {
+            _imageView.setImageBitmap(photo.getImage());
+        }
+        else {
+            try {
+                Uri uri = Uri.fromFile(new File(photo.getImagePath()));
+                _imageView.setImageURI(uri);
+            }
+            catch(Exception e)
+            {
+                Log.e(Constants.ThisAppName, "Image path " +
+                        photo.getImagePath() +
+                        " does not exist. " + e.getMessage());
+            }
+        }
 
-        ImageView imageView = (ImageView)this.getActivity().findViewById(R.id._picImageView);
-        imageView.setImageBitmap(photo.getImage());
+        _locationTextEntry.setText(getLocationStr(photo.getLat(), photo.getLon()));
+        _dateTextView.setText(PhotoDatabaseHelper._dateFormatter.format(photo.getDate()));
+        _pathTextView.setText(photo.getImagePath());
+        _titleTextView.setText(photo.getTitle());
+        _descTextView.setText(photo.getDesc());
+    }
+
+    /**
+     * inform the fragment of new photo.  It update the photo POCO with additional data
+     * such as location
+     */
+    public void setNewPhoto(Photo photo) {
+
+        // save the photo
+        this._photo = photo;
+
+        // if the image exist, set it in the viewer
+        if(photo.getImage() != null) {
+            _imageView.setImageBitmap(photo.getImage());
+        }
 
         // get the lat/lon and display it.
         Location currLoc = GpsProvider.getInstance().getCurrLocation();
@@ -125,15 +178,16 @@ public class PicDetailFragment extends Fragment {
         else {
             _locationTextEntry.setText(getLocationStr(currLoc.getLatitude(), currLoc.getLongitude()));
 
-            // save the location
-            _photo.setLat(currLoc.getLatitude());
-            _photo.setLon(currLoc.getLongitude());
+            // save the location.  We add some randomization to vary the location so the photos
+            // won't lay on top of each other on the map.
+            _photo.setLat(currLoc.getLatitude() + _locationRandomizer.nextDouble());
+            _photo.setLon(currLoc.getLongitude() + _locationRandomizer.nextDouble());
         }
 
         // display the date
         if(photo.getDate() != null) {
-            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm");
-            _dateTextView.setText(sdf.format(photo.getDate()));
+            //SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+            _dateTextView.setText(PhotoDatabaseHelper._dateFormatter.format(photo.getDate()));
 
         }
 
