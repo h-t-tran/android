@@ -55,17 +55,23 @@ public class PicDetailFragment extends Fragment {
         _dateTextView = (TextView)rootView.findViewById(R.id._picDateEntry);
         _pathTextView = (TextView)rootView.findViewById(R.id._picPathEntry);
 
+
+        //_testShowDetail();
+
+
+        return rootView;
+    }
+
+    private void _testShowDetail() {
         // TEST CODE
         PhotoDatabaseHelper db = PhotoDatabaseHelper.getInstance(null);
-        //List<Photo> photos = db.getAllPhotos();
+        List<Photo> photos = db.getAllPhotos();
         Photo photo = db.getPhoto(3);
+        //Photo photo = photos.get(photos.size() - 1);
         if(photo != null)
         {
             this.setExistingPhoto(photo);
-            //this.setExistingPhoto(photos.get(photos.size() - 1));
         }
-
-        return rootView;
     }
 
     public boolean deletePhoto()

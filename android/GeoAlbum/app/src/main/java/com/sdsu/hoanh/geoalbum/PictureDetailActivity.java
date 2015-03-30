@@ -14,7 +14,7 @@ import java.util.List;
 
 
 public class PictureDetailActivity extends ActionBarActivity {
-    private PicDetailFragment _picDetailFagment = new PicDetailFragment();
+    protected PicDetailFragment _picDetailFagment = new PicDetailFragment();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
