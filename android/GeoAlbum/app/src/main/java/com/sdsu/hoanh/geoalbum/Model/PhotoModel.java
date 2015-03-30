@@ -17,7 +17,9 @@ public class PhotoModel {
     }
 
     public void savePhoto(Photo photo)
-    {}
+    {
+
+    }
 
     public Photo getPhoto(int photoId)
     {

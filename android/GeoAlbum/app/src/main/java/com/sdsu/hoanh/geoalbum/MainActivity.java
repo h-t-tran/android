@@ -9,9 +9,14 @@ import android.view.View;
 import android.widget.Button;
 
 import com.sdsu.hoanh.geoalbum.Model.GpsProvider;
+import com.sdsu.hoanh.geoalbum.Model.Photo;
+import com.sdsu.hoanh.geoalbum.Model.PhotoDatabaseHelper;
+
+import java.util.Date;
 
 
 public class MainActivity extends ActionBarActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +25,18 @@ public class MainActivity extends ActionBarActivity {
 
         wireUpHandlers();
 
+        // bootstrap the database with this context.
+        PhotoDatabaseHelper database = PhotoDatabaseHelper.createInstance(this);
+        Photo p = new Photo();
+        p.setImagePath("the path2" + (new Date()).toString());
+        p.setLon(1.0);
+        p.setLat(2.0);
+        p.setDesc("desc");
+        p.setTitle("title "+ (new Date()).toString());
+        p.setDate(new Date());
+        database.insertOrUpdateTeacher(p);
+
+        database.getAllPhotos();
         // start GPS monitoring
         GpsProvider gpsProvider = new GpsProvider();
         gpsProvider.start(this);
