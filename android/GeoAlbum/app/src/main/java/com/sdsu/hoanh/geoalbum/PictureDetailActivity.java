@@ -9,12 +9,16 @@ import android.widget.Button;
 
 import com.sdsu.hoanh.geoalbum.Model.Photo;
 import com.sdsu.hoanh.geoalbum.Model.PhotoDatabaseHelper;
+import com.sdsu.hoanh.geoalbum.Model.PhotoModel;
 
 import java.util.List;
 
 
 public class PictureDetailActivity extends ActionBarActivity {
+    public static final String PHOTO_ID_KEY = "com.sdsu.hoanh.geoalbum.PictureDetailActivity.PhotoId";
     protected PicDetailFragment _picDetailFagment = new PicDetailFragment();
+    private Photo _photo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +27,14 @@ public class PictureDetailActivity extends ActionBarActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, _picDetailFagment)
                     .commit();
+        }
+
+        Bundle extras = getIntent().getExtras();
+
+        // if there is a photo ID, get the real photo and save it for later use.
+        if (extras != null) {
+            int photoId = extras.getInt(PHOTO_ID_KEY);
+            _photo = PhotoModel.getInstance().getPhoto(photoId);
         }
 
 
@@ -55,6 +67,10 @@ public class PictureDetailActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_picture_detail, menu);
+
+        if(_photo != null) {
+            _picDetailFagment.setExistingPhoto(_photo);
+        }
         return true;
     }
 

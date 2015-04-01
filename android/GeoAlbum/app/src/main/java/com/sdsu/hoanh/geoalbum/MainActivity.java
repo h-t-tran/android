@@ -89,8 +89,9 @@ public class MainActivity extends ActionBarActivity {
 
     private void showPicListing()
     {
-        Intent i = new Intent(this, PictureDetailActivity.class);
-        this.startActivity(i);
+        Intent intent = new Intent(this, PictureDetailActivity.class);
+        intent.putExtra(PictureDetailActivity.PHOTO_ID_KEY, 1);
+        this.startActivity(intent);
 
     }
 

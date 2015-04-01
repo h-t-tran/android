@@ -58,10 +58,12 @@ public class PicDetailFragment extends Fragment {
 
         //_testShowDetail();
 
-
         return rootView;
     }
 
+    private void _showPhoto(int photoId) {
+
+    }
     private void _testShowDetail() {
         // TEST CODE
         PhotoDatabaseHelper db = PhotoDatabaseHelper.getInstance(null);
@@ -171,10 +173,9 @@ public class PicDetailFragment extends Fragment {
         if(currLoc == null){
             Toast.makeText(this.getActivity(),
                     "GPS maybe disabled.  Using default location", Toast.LENGTH_LONG).show();
-            double sanDiegoLatitudeDeg = 32.7152778;
-            double sanDiegoLongitudeDeg = -117.1563889;
-            double randomizeLat = sanDiegoLatitudeDeg + _locationRandomizer.nextDouble();
-            double randomizeLon = sanDiegoLongitudeDeg + _locationRandomizer.nextDouble();
+
+            double randomizeLat = Constants.sanDiegoLatitudeDeg + _locationRandomizer.nextDouble();
+            double randomizeLon = Constants.sanDiegoLongitudeDeg + _locationRandomizer.nextDouble();
             _locationTextEntry.setText(getLocationStr(randomizeLat, randomizeLon));
 
             // save the location

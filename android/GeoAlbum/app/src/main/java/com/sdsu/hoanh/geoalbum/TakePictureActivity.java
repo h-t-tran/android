@@ -25,41 +25,8 @@ public class TakePictureActivity extends PictureDetailActivity { //ActionBarActi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // do the default behavior, the invoke the camera to take picutre.
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_take_picture);
-//        if (savedInstanceState == null) {
-//            getSupportFragmentManager().beginTransaction()
-//                    .add(R.id.container, _picDetailFagment)
-//                    .commit();
-//        }
-//
-//
-//
-//        Button acceptButton = (Button)this.findViewById(R.id._okPhoto);
-//        acceptButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                // save pic
-//                if(TakePictureActivity.this._picDetailFagment.savePhoto()) {
-//
-//                    // once saved return to main activity
-//                    TakePictureActivity.this.finish();
-//                }
-//            }
-//        });
-//
-//        Button cancelButton = (Button)this.findViewById(R.id._cancelPhoto);
-//        cancelButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                // user cancel, so we want to delete the image first
-//                TakePictureActivity.this._picDetailFagment.deletePhoto();
-//                TakePictureActivity.this.finish();
-//            }
-//        });
-
         takePicture();
     }
 
@@ -118,26 +85,5 @@ public class TakePictureActivity extends PictureDetailActivity { //ActionBarActi
         }
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_take_picture, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 
 }

@@ -24,11 +24,11 @@ public class PhotoModel {
 
     public Photo getPhoto(int photoId)
     {
-        return null;
+        return  PhotoDatabaseHelper.getInstance(null).getPhoto(photoId);
     }
 
     public List<Photo> getPhotos()
     {
-        return null;
+        return PhotoDatabaseHelper.getInstance(null).getAllPhotos();
     }
 }
