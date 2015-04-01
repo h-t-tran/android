@@ -6,12 +6,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 
 import com.sdsu.hoanh.geoalbum.Model.GpsProvider;
 import com.sdsu.hoanh.geoalbum.Model.Photo;
 import com.sdsu.hoanh.geoalbum.Model.PhotoDatabaseHelper;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -78,7 +81,20 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+        showRecentPhotos();
+    }
 
+    private void showRecentPhotos()
+    {
+        ListView recentPhotosListView = (ListView)this.findViewById(R.id._recentPhotosListView);
+
+        final ArrayList<String> list = new ArrayList<String>();
+        list.add("item1");
+        list.add("item2");
+
+        final ArrayAdapter adapter = new ArrayAdapter(this,
+                                        android.R.layout.simple_list_item_1, list);
+        recentPhotosListView.setAdapter(adapter);
     }
     private void showMap()
     {

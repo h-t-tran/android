@@ -8,11 +8,16 @@
     tools:context=".MainActivity"
     android:weightSum="1">
 
-    <ListView
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/_recentPhotos" />
 
+    <ListView
         android:layout_width="wrap_content"
         android:layout_height="285dp"
-        android:id="@+id/listView"
+        android:id="@+id/_recentPhotosListView"
         android:layout_toLeftOf="@+id/_btnMap"
         android:layout_toStartOf="@+id/_btnMap"
         android:layout_weight="1"
