@@ -9,12 +9,14 @@
     android:weightSum="1">
 
     <ListView
+
         android:layout_width="wrap_content"
         android:layout_height="285dp"
         android:id="@+id/listView"
         android:layout_toLeftOf="@+id/_btnMap"
         android:layout_toStartOf="@+id/_btnMap"
-        android:layout_weight="0.72" />
+        android:layout_weight="1"
+        android:background="#ffffb326" />
 
 
     <LinearLayout
@@ -23,26 +25,29 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Table"
+            android:text="@string/_morePicsButtonText"
             android:id="@+id/_btnTableAlbum"
             android:layout_alignTop="@+id/button"
             android:layout_centerHorizontal="true" />
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Take Pics"
+            android:text="@string/_snapButtonText"
+            android:layout_weight="1"
             android:id="@+id/_btnTakePics"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Map"
+            android:text="@string/_mapButtonText"
             android:id="@+id/_btnMap"
             android:layout_alignTop="@+id/_btnTableAlbum"
             android:layout_alignParentRight="true"
