@@ -123,10 +123,16 @@ public class MainActivity extends ActionBarActivity {
 //            photos.add(photo);
 //        }
 
+        // newest photo is at highest row in DB, so we want to add those to begining of the
+        // listview
         List<Photo> photos = PhotoModel.getInstance().getPhotos();
-        Collections.reverse(photos);
-        new ArrayList<Photo>();
-        _photoAdapter = new PhotoOverviewAdapter(photos);
+        final int numPhotosToDisplay = Math.min(10, photos.size());
+        List<Photo> photosToDisplay = new ArrayList<Photo>();
+        for(int i=0; i < numPhotosToDisplay; i++) {
+            photosToDisplay.add(i, photos.get( photos.size() - i - 1));
+        }
+
+        _photoAdapter = new PhotoOverviewAdapter(photosToDisplay);
         recentPhotosListView.setAdapter(_photoAdapter);
 
     }
@@ -154,12 +160,12 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK) {
+        if(resultCode == RESULT_OK && requestCode == TakePictureActivity.TAKE_PHOTO_IMAGE_ACTIVITY_REQUEST_CODE) {
             long newPhotoId = data.getLongExtra(PictureDetailActivity.PHOTO_ID_KEY, Constants.INVALID_PHOTO_ID);
             if(newPhotoId != Constants.INVALID_PHOTO_ID) {
                 // update the list of photo.
                 Photo photo = PhotoModel.getInstance().getPhoto((int)newPhotoId);
-                _photoAdapter.add(photo);
+                _photoAdapter.insert(photo, 0);  // show top of list as newest.
             }
         }
     }
