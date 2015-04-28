@@ -1,24 +1,39 @@
 package com.sdsu.hoanh.geoalbum;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.sdsu.hoanh.geoalbum.Model.GpsProvider;
 import com.sdsu.hoanh.geoalbum.Model.Photo;
 import com.sdsu.hoanh.geoalbum.Model.PhotoDatabaseHelper;
+import com.sdsu.hoanh.geoalbum.Model.PhotoModel;
 
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
+    private PhotoOverviewAdapter _photoAdapter;
 
 
     @Override
@@ -26,31 +41,33 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        wireUpHandlers();
-
         // bootstrap the database with this context.
+        // Must call this first before any attempt to access DB
         PhotoDatabaseHelper database = PhotoDatabaseHelper.getInstance(this);
         //_testDbInsert(database);
 
         // start GPS monitoring
         GpsProvider gpsProvider = new GpsProvider();
         gpsProvider.start(this);
-    }
 
-    private void _testDbInsert(PhotoDatabaseHelper database) {
-        Photo p = new Photo();
-        p.setImagePath("the path2" + (new Date()).toString());
-        p.setLon(1.0);
-        p.setLat(2.0);
-        p.setDesc("desc");
-        p.setTitle("title "+ (new Date()).toString());
-        p.setDate(new Date());
-        database.insertOrUpdateTeacher(p);
-
-        database.getAllPhotos();
-        Photo photo = database.getPhoto(3);
+        wireUpHandlers();
 
     }
+
+//    private void _testDbInsert(PhotoDatabaseHelper database) {
+//        Photo p = new Photo(1);
+//        p.setImagePath("the path2" + (new Date()).toString());
+//        p.setLon(1.0);
+//        p.setLat(2.0);
+//        p.setDesc("desc");
+//        p.setTitle("title "+ (new Date()).toString());
+//        p.setDate(new Date());
+//        database.insertOrUpdateTeacher(p);
+//
+//        database.getAllPhotos();
+//        Photo photo = database.getPhoto(3);
+//
+//    }
 
 
     private void wireUpHandlers()
@@ -87,14 +104,31 @@ public class MainActivity extends ActionBarActivity {
     private void showRecentPhotos()
     {
         ListView recentPhotosListView = (ListView)this.findViewById(R.id._recentPhotosListView);
+//
+//        final ArrayList<String> list = new ArrayList<String>();
+//        for(int i=0; i < 10; i++) {
+//            list.add("item1");
+//            list.add("item2");
+//        }
+//
+//        final ArrayAdapter adapter = new ArrayAdapter(this,
+//                                        android.R.layout.simple_list_item_1, list);
+//        recentPhotosListView.setAdapter(adapter);
+//
+//
+//        ArrayList<Photo> photos = new ArrayList<Photo>();
+//        for(int i = 0; i < 10; i++) {
+//            Photo photo = new Photo();
+//            photo.setTitle("photo " + i);
+//            photos.add(photo);
+//        }
 
-        final ArrayList<String> list = new ArrayList<String>();
-        list.add("item1");
-        list.add("item2");
+        List<Photo> photos = PhotoModel.getInstance().getPhotos();
+        Collections.reverse(photos);
+        new ArrayList<Photo>();
+        _photoAdapter = new PhotoOverviewAdapter(photos);
+        recentPhotosListView.setAdapter(_photoAdapter);
 
-        final ArrayAdapter adapter = new ArrayAdapter(this,
-                                        android.R.layout.simple_list_item_1, list);
-        recentPhotosListView.setAdapter(adapter);
     }
     private void showMap()
     {
@@ -114,10 +148,21 @@ public class MainActivity extends ActionBarActivity {
     private void takePicture()
     {
         Intent i = new Intent(this, TakePictureActivity.class);
-        this.startActivity(i);
+        this.startActivityForResult(i, TakePictureActivity.TAKE_PHOTO_IMAGE_ACTIVITY_REQUEST_CODE);
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == RESULT_OK) {
+            long newPhotoId = data.getLongExtra(PictureDetailActivity.PHOTO_ID_KEY, Constants.INVALID_PHOTO_ID);
+            if(newPhotoId != Constants.INVALID_PHOTO_ID) {
+                // update the list of photo.
+                Photo photo = PhotoModel.getInstance().getPhoto((int)newPhotoId);
+                _photoAdapter.add(photo);
+            }
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -138,5 +183,46 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * custom adapter to show the photo data
+     */
+    private class PhotoOverviewAdapter extends ArrayAdapter<Photo> {
+        public PhotoOverviewAdapter(List<Photo> photos) {
+            super(MainActivity.this, android.R.layout.simple_list_item_1, photos);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+
+            // if we weren't given a view, inflate one
+            if (null == convertView) {
+                convertView = MainActivity.this.getLayoutInflater()
+                        .inflate(R.layout.photo_item, null);
+            }
+
+            // get the i-th photo
+            Photo nthPhoto = this.getItem(position);
+
+            // crate URI to the photo path and load it in the ImageView
+            Uri uri = Uri.parse(nthPhoto.getImagePath());
+            ImageView viewer = (ImageView)convertView.findViewById(R.id._photoImageView);
+            viewer.setImageURI(uri);
+
+            //
+            // take care of other photo metadata
+            //
+            TextView titleTextView =
+                    (TextView)convertView.findViewById(R.id._photoTitleTextView);
+            titleTextView.setText(nthPhoto.getTitle());
+
+            CheckBox solvedCheckBox =
+                    (CheckBox)convertView.findViewById(R.id._photoDeleteCheckbox);
+            solvedCheckBox.setChecked(false);
+
+            return convertView;
+        }
     }
 }

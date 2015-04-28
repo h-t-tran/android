@@ -19,7 +19,7 @@ import java.util.List;
 public class PhotoDatabaseHelper  extends SQLiteOpenHelper {
 
     public static final SimpleDateFormat _dateFormatter = new SimpleDateFormat("d-MMM-yyyy HH:mm:ss");
-    public static final String DB_NAME = "photo4.sqlite";
+    public static final String DB_NAME = "photo6.sqlite";
     public static final int VERSION = 1;
     private static final String PHOTO_TABLE_NAME = "photo";
 
@@ -107,11 +107,12 @@ public class PhotoDatabaseHelper  extends SQLiteOpenHelper {
 
     /**
      * insert or update the photo if it already exist
+     * @return the row id of newly inserted photo or Constants.INVALID_DB_ROW_ID (-1)
+     * if the insert or update failed
      */
-    public boolean insertOrUpdateTeacher(Photo photo)
+    public long insertOrUpdateTeacher(Photo photo)
     {
-        boolean success = false;
-
+        long rowId = Constants.INVALID_DB_ROW_ID;
         // try update first.  If failed, then insert.
         if(updatePhoto(photo) <= 0) {
 
@@ -119,19 +120,17 @@ public class PhotoDatabaseHelper  extends SQLiteOpenHelper {
                 ContentValues content = getPhotoContentValues(photo);
 
                 // success if we get a valid primary key back
-                success = getWritableDatabase().insert(PHOTO_TABLE_NAME, null, content) != -1;
+                rowId = getWritableDatabase().insert(PHOTO_TABLE_NAME, null, content);
+
+                photo.setId(rowId);
             }
             catch (Exception e) {
                 Log.e(Constants.ThisAppName, "Unable to insert to table " +
                         PHOTO_TABLE_NAME + ".  Error code " + e.getMessage());
             }
         }
-        else
-        {
-            success = true;
-        }
 
-        return success;
+        return rowId;
     }
 
 

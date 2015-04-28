@@ -1,5 +1,7 @@
 package com.sdsu.hoanh.geoalbum.Model;
 
+import com.sdsu.hoanh.geoalbum.Constants;
+
 import java.util.List;
 
 
@@ -18,8 +20,13 @@ public class PhotoModel {
 
     public boolean savePhoto(Photo photo)
     {
-        return PhotoDatabaseHelper.getInstance(null)
+        long rowId = PhotoDatabaseHelper.getInstance(null)
                         .insertOrUpdateTeacher(photo);
+
+        // save the photo row ID.
+        //photo.setId(rowId);
+
+        return rowId != Constants.INVALID_DB_ROW_ID;
     }
 
     public Photo getPhoto(int photoId)

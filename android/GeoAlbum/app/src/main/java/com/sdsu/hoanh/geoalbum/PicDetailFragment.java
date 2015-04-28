@@ -1,5 +1,6 @@
 package com.sdsu.hoanh.geoalbum;
 
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -169,13 +170,20 @@ public class PicDetailFragment extends Fragment {
         // get the lat/lon and display it.
         Location currLoc = GpsProvider.getInstance().getCurrLocation();
 
+        // since a degree is about 72 miles and we want to randomize it around our current location
+        // and reduce the randomize factor by .01 which is about 0.72 miles.  This will prevent
+        // our pics from overlapping with each other, but keep them group closely together
+        final double reduceRandomizeFactor = 0.01;
+        double randLat = _locationRandomizer.nextDouble() * reduceRandomizeFactor;
+        double randLon = _locationRandomizer.nextDouble() * reduceRandomizeFactor;
+
         // if there is no location, we'll generate a random location around san diego
         if(currLoc == null){
             Toast.makeText(this.getActivity(),
                     "GPS maybe disabled.  Using default location", Toast.LENGTH_LONG).show();
 
-            double randomizeLat = Constants.sanDiegoLatitudeDeg + _locationRandomizer.nextDouble();
-            double randomizeLon = Constants.sanDiegoLongitudeDeg + _locationRandomizer.nextDouble();
+            double randomizeLat = Constants.sanDiegoLatitudeDeg + randLat;
+            double randomizeLon = Constants.sanDiegoLongitudeDeg + randLon;
             _locationTextEntry.setText(getLocationStr(randomizeLat, randomizeLon));
 
             // save the location
@@ -183,12 +191,13 @@ public class PicDetailFragment extends Fragment {
             _photo.setLon(randomizeLon);
         }
         else {
-            _locationTextEntry.setText(getLocationStr(currLoc.getLatitude(), currLoc.getLongitude()));
 
             // save the location.  We add some randomization to vary the location so the photos
             // won't lay on top of each other on the map.
-            _photo.setLat(currLoc.getLatitude() + _locationRandomizer.nextDouble());
-            _photo.setLon(currLoc.getLongitude() + _locationRandomizer.nextDouble());
+            _photo.setLat(currLoc.getLatitude() + randLat);
+            _photo.setLon(currLoc.getLongitude() + randLon);
+
+            _locationTextEntry.setText(getLocationStr(_photo.getLat(), _photo.getLon()));
         }
 
         // display the date
@@ -204,6 +213,13 @@ public class PicDetailFragment extends Fragment {
         }
     }
 
+    /**
+     *
+     * @return the most recent photo we take.
+     */
+    public Photo getPhoto() {
+        return _photo;
+    }
     private static double generateRandomLatitude(double baseLatitude)
     {
         return 0;

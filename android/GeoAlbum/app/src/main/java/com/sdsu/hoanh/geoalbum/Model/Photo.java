@@ -4,9 +4,11 @@ package com.sdsu.hoanh.geoalbum.Model;
 import android.graphics.Bitmap;
 
 import java.util.Date;
+import java.util.Random;
 
 public class Photo {
-    private int id;
+    // unique ID of this photo.  this corresponds to the database row where this photo is stored.
+    private long id;
     private double lat;
     private double lon;
     private String title;
@@ -14,6 +16,16 @@ public class Photo {
     private String imagePath;
     private Bitmap image;
     private Date date;
+
+//    private static Random _randomGenerator = new Random();
+//    static {
+//        // seed it with current time.
+//        _randomGenerator.setSeed(new Date().getTime());
+//    }
+//    public Photo() {
+//        // generate a unique ID for the photo
+//        id = _randomGenerator.nextInt();
+//    }
 
     public double getLon() {
         return lon;
@@ -73,11 +85,11 @@ public class Photo {
         this.date = date;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 }

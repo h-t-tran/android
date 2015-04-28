@@ -1,5 +1,6 @@
 package com.sdsu.hoanh.geoalbum;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -25,7 +26,7 @@ public class PictureDetailActivity extends ActionBarActivity {
         setContentView(R.layout.activity_take_picture); //activity_picture_detail);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, _picDetailFagment)
+                    .add(R.id._picDetailContainer, _picDetailFagment)
                     .commit();
         }
 
@@ -46,7 +47,13 @@ public class PictureDetailActivity extends ActionBarActivity {
                 // save pic
                 if(PictureDetailActivity.this._picDetailFagment.savePhoto()) {
 
-                    // once saved return to main activity
+                    // once we save the photo, we return to main activity
+                    // pass back the intent with the ID of the new photo to the calling activity
+                    Intent returnIntent = new Intent();
+                    Photo recentPhoto = PictureDetailActivity.this._picDetailFagment.getPhoto();
+                    returnIntent.putExtra(PHOTO_ID_KEY, recentPhoto.getId());
+                    PictureDetailActivity.this.setResult(RESULT_OK, returnIntent);
+
                     PictureDetailActivity.this.finish();
                 }
             }
@@ -56,6 +63,7 @@ public class PictureDetailActivity extends ActionBarActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                PictureDetailActivity.this.setResult(RESULT_CANCELED);
                 PictureDetailActivity.this.finish();
             }
         });

@@ -13,7 +13,7 @@
 
         <FrameLayout
             android:layout_weight="4"
-            android:id="@+id/container"
+            android:id="@+id/_picDetailContainer"
             android:layout_width="match_parent"
             android:layout_height="350dp" >
         </FrameLayout>

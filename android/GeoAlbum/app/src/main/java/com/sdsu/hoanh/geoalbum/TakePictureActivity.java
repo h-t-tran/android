@@ -17,11 +17,11 @@ import com.sdsu.hoanh.geoalbum.Model.Photo;
 import java.util.Date;
 
 
-public class TakePictureActivity extends PictureDetailActivity { //ActionBarActivity {
-
+public class TakePictureActivity extends PictureDetailActivity {
 
     //private PicDetailFragment _picDetailFagment = new PicDetailFragment();
     private final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+    public final static int TAKE_PHOTO_IMAGE_ACTIVITY_REQUEST_CODE = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +59,21 @@ public class TakePictureActivity extends PictureDetailActivity { //ActionBarActi
             photo.setImagePath(getRealPathFromURI(uri));
 
             _picDetailFagment.setNewPhoto(photo);
+//
+//            // pass back the intent with the ID of the new photo to the calling activity
+//            Intent returnIntent = new Intent();
+//            returnIntent.putExtra(PHOTO_ID_KEY, photo.getId());
+//            this.setResult(RESULT_OK, returnIntent);
+        }
+        else {
+            this.setResult(RESULT_CANCELED);
         }
 
     }
 
+    public Photo getMostRecentPhoto() {
+        return _picDetailFagment.getPhoto();
+    }
     /**
      * Taken from http://androidamaranthine.blogspot.com/2013/01/get-path-of-stored-image.html
      * @param contentUri

@@ -21,7 +21,7 @@
         android:layout_toLeftOf="@+id/_btnMap"
         android:layout_toStartOf="@+id/_btnMap"
         android:layout_weight="1"
-        android:background="#ffffb326" />
+        />
 
 
     <LinearLayout
