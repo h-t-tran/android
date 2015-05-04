@@ -4,9 +4,8 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="#ffffea3e"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:id="@+id/_photoImageView"
         android:layout_alignParentTop="true" />
 
@@ -17,15 +16,16 @@
         android:layout_alignParentRight="true"
         android:enabled="true"
         android:focusable="false"
-        android:padding="4dp" />
+        android:paddingTop="40dp"/>
     <TextView android:id="@+id/_photoTitleTextView"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/_photoDeleteCheckbox"
         android:layout_toRightOf="@id/_photoImageView"
         android:textStyle="bold"
-        android:padding="4dp"
-        android:text="Photo title" />
+        android:text="---"
+        android:paddingTop="15dp"
+        android:paddingLeft="5dp" />
 
 </RelativeLayout>
