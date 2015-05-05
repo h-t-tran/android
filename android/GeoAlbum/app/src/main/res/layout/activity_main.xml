@@ -8,11 +8,47 @@
     tools:context=".MainActivity"
     android:weightSum="1">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/_recentPhotos" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/_recentPhotoText"
+                android:text="@string/_recentPhotos"
+                android:paddingTop="10dp" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete"
+                android:id="@+id/_btnDeleteSelectedPhotos"
+                android:layout_alignBottom="@+id/_checkBoxSelectDeselectAll"
+                android:layout_toLeftOf="@+id/_checkBoxSelectDeselectAll"
+                android:layout_toStartOf="@+id/_checkBoxSelectDeselectAll" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/_checkBoxSelectDeselectAll"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
 
     <ListView
         android:layout_width="wrap_content"
