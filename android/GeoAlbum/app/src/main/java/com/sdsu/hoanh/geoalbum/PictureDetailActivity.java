@@ -17,6 +17,8 @@ import java.util.List;
 
 public class PictureDetailActivity extends ActionBarActivity {
     public static final String PHOTO_ID_KEY = "com.sdsu.hoanh.geoalbum.PictureDetailActivity.PhotoId";
+    public final static int DISPLAY_PHOTO_DETAIL_ACTIVITY_REQUEST_CODE = 200;
+
     protected PicDetailFragment _picDetailFagment = new PicDetailFragment();
     private Photo _photo;
 

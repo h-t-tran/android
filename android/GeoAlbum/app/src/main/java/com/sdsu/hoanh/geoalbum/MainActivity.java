@@ -1,12 +1,9 @@
 package com.sdsu.hoanh.geoalbum;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,18 +21,13 @@ import com.sdsu.hoanh.geoalbum.Model.Photo;
 import com.sdsu.hoanh.geoalbum.Model.PhotoDatabaseHelper;
 import com.sdsu.hoanh.geoalbum.Model.PhotoModel;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
     private PhotoOverviewAdapter _photoAdapter;
-
+    private int _selectedPhotoIdx = Constants.INVALID_PHOTO_ID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +138,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void _onPhotoSelected(int selIndex){
+        _selectedPhotoIdx = selIndex; // save for future use
         Photo selPhoto = _photoAdapter.getItem(selIndex);
 
         // display the detail view.
@@ -162,7 +155,7 @@ public class MainActivity extends ActionBarActivity {
     {
         Intent intent = new Intent(this, PictureDetailActivity.class);
         intent.putExtra(PictureDetailActivity.PHOTO_ID_KEY, photoId);
-        this.startActivity(intent);
+        this.startActivityForResult(intent, PictureDetailActivity.DISPLAY_PHOTO_DETAIL_ACTIVITY_REQUEST_CODE);
 
     }
 
@@ -175,19 +168,46 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK &&
-           requestCode == TakePictureActivity.TAKE_PHOTO_IMAGE_ACTIVITY_REQUEST_CODE) {
+        if(resultCode == RESULT_OK) {
+            if(requestCode == TakePictureActivity.TAKE_PHOTO_IMAGE_ACTIVITY_REQUEST_CODE) {
 
-            long newPhotoId = data.getLongExtra(PictureDetailActivity.PHOTO_ID_KEY, Constants.INVALID_PHOTO_ID);
+                long newPhotoId = data.getLongExtra(PictureDetailActivity.PHOTO_ID_KEY,
+                                                        Constants.INVALID_PHOTO_ID);
 
-            if(newPhotoId != Constants.INVALID_PHOTO_ID) {
-                // add to the list of photo.
-                Photo photo = PhotoModel.getInstance().getPhoto((int)newPhotoId);
-                _photoAdapter.insert(photo, 0);  // show top of list as newest.
+                if (newPhotoId != Constants.INVALID_PHOTO_ID) {
+                    // add to the list of photo.
+                    Photo photo = PhotoModel.getInstance().getPhoto((int) newPhotoId);
+                    _photoAdapter.insert(photo, 0);  // show top of list as newest.
+                }
+            }
+            else if(requestCode == TakePictureActivity.DISPLAY_PHOTO_DETAIL_ACTIVITY_REQUEST_CODE) {
+                // update the photo in the listview
+
+                long newPhotoId = data.getLongExtra(PictureDetailActivity.PHOTO_ID_KEY,
+                                                        Constants.INVALID_PHOTO_ID);
+                if(newPhotoId != Constants.INVALID_PHOTO_ID) {
+                    // add to the list of photo.
+                    Photo photo = PhotoModel.getInstance().getPhoto((int)newPhotoId);
+                    _updatePhotoInListView(photo);
+
+                    // we are done with showing the detail so reset the index
+                    _selectedPhotoIdx = Constants.INVALID_PHOTO_ID;
+                }
             }
         }
+
     }
 
+    private void _updatePhotoInListView(Photo photo) {
+        ListView recentPhotosListView = (ListView)this.findViewById(R.id._recentPhotosListView);
+        View rowView = recentPhotosListView.getChildAt(this._selectedPhotoIdx);
+
+        // get the title textbox from the view
+        TextView titleTextView =
+                (TextView)rowView.findViewById(R.id._photoTitleTextView);
+        titleTextView.setText(photo.getTitle());
+
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
