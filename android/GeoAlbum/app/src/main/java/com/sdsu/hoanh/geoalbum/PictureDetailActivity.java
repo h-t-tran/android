@@ -34,8 +34,8 @@ public class PictureDetailActivity extends ActionBarActivity {
 
         // if there is a photo ID, get the real photo and save it for later use.
         if (extras != null) {
-            int photoId = extras.getInt(PHOTO_ID_KEY);
-            _photo = PhotoModel.getInstance().getPhoto(photoId);
+            long photoId = extras.getLong(PHOTO_ID_KEY);
+            _photo = PhotoModel.getInstance().getPhoto((int)photoId);
         }
 
 

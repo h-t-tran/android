@@ -112,9 +112,9 @@ public class PhotoDatabaseHelper  extends SQLiteOpenHelper {
      */
     public long insertOrUpdateTeacher(Photo photo)
     {
-        long rowId = Constants.INVALID_DB_ROW_ID;
+        long rowId = updatePhoto(photo);;
         // try update first.  If failed, then insert.
-        if(updatePhoto(photo) <= 0) {
+        if(rowId <= 0) {
 
             try {
                 ContentValues content = getPhotoContentValues(photo);

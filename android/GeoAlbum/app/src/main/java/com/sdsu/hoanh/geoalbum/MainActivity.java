@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -90,13 +91,13 @@ public class MainActivity extends ActionBarActivity {
         });
 
 
-        Button showPhotoListing = (Button)this.findViewById(R.id._btnTableAlbum);
-        showPhotoListing.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity.this.showPicListing();
-            }
-        });
+//        Button showPhotoListing = (Button)this.findViewById(R.id._btnTableAlbum);
+//        showPhotoListing.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                MainActivity.this.showPhotoDetail();
+//            }
+//        });
 
         showRecentPhotos();
     }
@@ -126,7 +127,7 @@ public class MainActivity extends ActionBarActivity {
         // newest photo is at highest row in DB, so we want to add those to begining of the
         // listview
         List<Photo> photos = PhotoModel.getInstance().getPhotos();
-        final int numPhotosToDisplay = Math.min(10, photos.size());
+        final int numPhotosToDisplay = Math.min(100, photos.size());
         List<Photo> photosToDisplay = new ArrayList<Photo>();
         for(int i=0; i < numPhotosToDisplay; i++) {
             photosToDisplay.add(i, photos.get( photos.size() - i - 1));
@@ -135,6 +136,20 @@ public class MainActivity extends ActionBarActivity {
         _photoAdapter = new PhotoOverviewAdapter(photosToDisplay);
         recentPhotosListView.setAdapter(_photoAdapter);
 
+        // add listener for when photo is selected
+        recentPhotosListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                MainActivity.this._onPhotoSelected(position);
+            }
+        });
+    }
+
+    private void _onPhotoSelected(int selIndex){
+        Photo selPhoto = _photoAdapter.getItem(selIndex);
+
+        // display the detail view.
+        showPhotoDetail(selPhoto.getId());
     }
     private void showMap()
     {
@@ -143,10 +158,10 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    private void showPicListing()
+    private void showPhotoDetail(long photoId)
     {
         Intent intent = new Intent(this, PictureDetailActivity.class);
-        intent.putExtra(PictureDetailActivity.PHOTO_ID_KEY, 1);
+        intent.putExtra(PictureDetailActivity.PHOTO_ID_KEY, photoId);
         this.startActivity(intent);
 
     }
@@ -160,15 +175,19 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK && requestCode == TakePictureActivity.TAKE_PHOTO_IMAGE_ACTIVITY_REQUEST_CODE) {
+        if(resultCode == RESULT_OK &&
+           requestCode == TakePictureActivity.TAKE_PHOTO_IMAGE_ACTIVITY_REQUEST_CODE) {
+
             long newPhotoId = data.getLongExtra(PictureDetailActivity.PHOTO_ID_KEY, Constants.INVALID_PHOTO_ID);
+
             if(newPhotoId != Constants.INVALID_PHOTO_ID) {
-                // update the list of photo.
+                // add to the list of photo.
                 Photo photo = PhotoModel.getInstance().getPhoto((int)newPhotoId);
                 _photoAdapter.insert(photo, 0);  // show top of list as newest.
             }
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
