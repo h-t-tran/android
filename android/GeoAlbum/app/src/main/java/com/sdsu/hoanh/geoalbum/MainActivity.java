@@ -2,7 +2,6 @@ package com.sdsu.hoanh.geoalbum;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,10 +24,7 @@ import com.sdsu.hoanh.geoalbum.Model.PhotoDatabaseHelper;
 import com.sdsu.hoanh.geoalbum.Model.PhotoModel;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -95,38 +92,67 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-//        Button showPhotoListing = (Button)this.findViewById(R.id._btnTableAlbum);
-//        showPhotoListing.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                MainActivity.this.showPhotoDetail();
-//            }
-//        });
+        CheckBox selAllCheckbox = (CheckBox)this.findViewById(R.id._checkBoxSelectDeselectAll);
+        selAllCheckbox.setChecked(false); // uncheck initially
+        selAllCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                MainActivity.this._selectAllPhotos(isChecked);
+            }
+        });
 
-        showRecentPhotos();
+        _showRecentPhotos();
+
+        // make sure the controls state are updated.
+        _synchSelectAllControls();
     }
 
-    private void showRecentPhotos()
+    /**
+     * see if there is any photo, if so enable the Delete and Select All checkbox. If
+     * there is no photo, hide them
+     */
+    private void _synchSelectAllControls() {
+        CheckBox selAllCheckbox = (CheckBox)this.findViewById(R.id._checkBoxSelectDeselectAll);
+        Button deletePicButton = (Button)this.findViewById(R.id._btnDeleteSelectedPhotos);
+        TextView recentPhotoTextview = (TextView)this.findViewById(R.id._recentPhotoText);
+
+        int numPhotos = _photoAdapter.getCount();
+        boolean isEnabled =  numPhotos > 0;
+
+        //selAllCheckbox.setEnabled(isEnabled);
+        //deletePicButton.setEnabled(isEnabled);
+
+        int visibiity = isEnabled ? View.VISIBLE : View.INVISIBLE;
+        selAllCheckbox.setVisibility(visibiity);
+        deletePicButton.setVisibility(visibiity);
+
+        // if we are disabling, we want to make sure the checkbox is unselected.
+        if( ! isEnabled) {
+            selAllCheckbox.setChecked(false);
+        }
+
+        // update the photo count
+        recentPhotoTextview.setText("Recent Photos (" + numPhotos + ")");
+    }
+
+    /**
+     * select all photo checkboxes or not
+     * @param selectAll - true if selected all, or false if deselect all
+     */
+    private void _selectAllPhotos(boolean selectAll) {
+        ListView recentPhotosListView = (ListView) this.findViewById(R.id._recentPhotosListView);
+
+        // get views of all items
+        for (int i = 0; i < _photoAdapter.getCount(); i++) {
+            View rowView = recentPhotosListView.getChildAt(i);
+            CheckBox selPhotoCheckbox = (CheckBox) rowView.findViewById(R.id._photoDeleteCheckbox);
+            selPhotoCheckbox.setChecked(selectAll);
+        }
+    }
+
+    private void _showRecentPhotos()
     {
         ListView recentPhotosListView = (ListView)this.findViewById(R.id._recentPhotosListView);
-//
-//        final ArrayList<String> list = new ArrayList<String>();
-//        for(int i=0; i < 10; i++) {
-//            list.add("item1");
-//            list.add("item2");
-//        }
-//
-//        final ArrayAdapter adapter = new ArrayAdapter(this,
-//                                        android.R.layout.simple_list_item_1, list);
-//        recentPhotosListView.setAdapter(adapter);
-//
-//
-//        ArrayList<Photo> photos = new ArrayList<Photo>();
-//        for(int i = 0; i < 10; i++) {
-//            Photo photo = new Photo();
-//            photo.setTitle("photo " + i);
-//            photos.add(photo);
-//        }
 
         // newest photo is at highest row in DB, so we want to add those to begining of the
         // listview
@@ -160,14 +186,14 @@ public class MainActivity extends ActionBarActivity {
     private void  _deleteSelectedPhotos(){
 
         List<Photo> selPhotos = new ArrayList<Photo>();
-        //List<Long> selPhotoIds = new ArrayList<Long>();
+
         ListView recentPhotosListView = (ListView)this.findViewById(R.id._recentPhotosListView);
 
         // get all photos that are selected
         for(int i=0; i < _photoAdapter.getCount(); i++) {
             View rowView = recentPhotosListView.getChildAt(i);
 
-            // get the title textbox from the view
+            // get the checkbox from the view
             CheckBox selPhotoCheckbox =
                     (CheckBox)rowView.findViewById(R.id._photoDeleteCheckbox);
 
@@ -193,6 +219,9 @@ public class MainActivity extends ActionBarActivity {
         for(Photo delPhoto : selPhotos) {
             _photoAdapter.remove(delPhoto);
         }
+
+        // make sure the controls state are updated.
+        _synchSelectAllControls();
     }
     private void _showMap()
     {
@@ -244,6 +273,9 @@ public class MainActivity extends ActionBarActivity {
                     _selectedPhotoIdx = Constants.INVALID_PHOTO_ID;
                 }
             }
+
+            // make sure the controls state are updated.
+            _synchSelectAllControls();
         }
 
     }
