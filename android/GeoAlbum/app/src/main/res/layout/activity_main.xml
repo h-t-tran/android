@@ -29,7 +29,7 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Delete"
+                android:text="@string/_deleteText"
                 android:id="@+id/_btnDeleteSelectedPhotos"
                 android:layout_alignBottom="@+id/_checkBoxSelectDeselectAll"
                 android:layout_toLeftOf="@+id/_checkBoxSelectDeselectAll"
@@ -65,14 +65,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <Button
-            android:layout_weight="1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/_morePicsButtonText"
-            android:id="@+id/_btnTableAlbum"
-            android:layout_alignTop="@+id/button"
-            android:layout_centerHorizontal="true" />
+        <!--<Button-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/_morePicsButtonText"-->
+            <!--android:id="@+id/_btnTableAlbum"-->
+            <!--android:layout_alignTop="@+id/button"-->
+            <!--android:layout_centerHorizontal="true" />-->
 
         <Button
             android:layout_width="fill_parent"

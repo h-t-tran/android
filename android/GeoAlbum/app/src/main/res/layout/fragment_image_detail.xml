@@ -37,7 +37,8 @@
                 <EditText
                     android:layout_width="271dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/_picTitle" />
+                    android:id="@+id/_picTitle"
+                    android:maxLength="80" />
             </LinearLayout>
 
 
@@ -53,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
-            />
+            android:maxLength="100" />
 
         <TextView
             android:layout_width="match_parent"

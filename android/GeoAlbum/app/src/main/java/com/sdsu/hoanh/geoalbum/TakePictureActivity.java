@@ -67,6 +67,7 @@ public class TakePictureActivity extends PictureDetailActivity {
         }
         else {
             this.setResult(RESULT_CANCELED);
+            finish();
         }
 
     }

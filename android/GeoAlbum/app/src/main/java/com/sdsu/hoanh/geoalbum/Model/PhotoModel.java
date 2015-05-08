@@ -2,6 +2,7 @@ package com.sdsu.hoanh.geoalbum.Model;
 
 import com.sdsu.hoanh.geoalbum.Constants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -34,6 +35,23 @@ public class PhotoModel {
         return  PhotoDatabaseHelper.getInstance(null).getPhoto(photoId);
     }
 
+    /**
+     * delete all photos with the specified id
+     * @param photosToDelete - list of photo
+     * @return number of photos deleted
+     */
+    public int deletePhotos(List<Photo> photosToDelete) {
+        List<Long> photoIds = new ArrayList<>();
+        for(Photo photo : photosToDelete) {
+            photoIds.add(photo.getId());
+        }
+        return PhotoDatabaseHelper.getInstance(null).deletePhotos(photoIds);
+    }
+
+    /**
+     * Retrieve all the photos
+     * @return
+     */
     public List<Photo> getPhotos()
     {
         return PhotoDatabaseHelper.getInstance(null).getAllPhotos();

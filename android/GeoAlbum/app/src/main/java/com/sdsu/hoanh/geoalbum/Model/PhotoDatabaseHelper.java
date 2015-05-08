@@ -134,6 +134,28 @@ public class PhotoDatabaseHelper  extends SQLiteOpenHelper {
     }
 
 
+    /**
+     * delete all photos with the specified id
+     * @param photoIds - list of photo ids
+     * @return number of photos deleted
+     */
+    public int deletePhotos(List<Long> photoIds) {
+        int numSuccessDelete = 0;
+        for(Long id : photoIds) {
+            String deleteStatement = "DELETE FROM " + PHOTO_TABLE_NAME +
+                    " WHERE " + ID_PK_COL + " = " + id;
+            SQLiteDatabase db = this.getReadableDatabase();
+            numSuccessDelete ++;
+            try {
+                db.execSQL(deleteStatement);
+            } catch(Exception e) {
+                Log.e(Constants.ThisAppName, "Unable to delete photo ID " + id + " from table " +
+                        PHOTO_TABLE_NAME + ".  Error code " + e.getMessage());
+            }
+        }
+
+        return numSuccessDelete;
+    }
     public List<Photo> getAllPhotos()
     {
         List<Photo> photos = new ArrayList<Photo>();

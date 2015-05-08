@@ -2,6 +2,7 @@ package com.sdsu.hoanh.geoalbum;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,6 +16,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sdsu.hoanh.geoalbum.Model.GpsProvider;
 import com.sdsu.hoanh.geoalbum.Model.Photo;
@@ -22,7 +24,10 @@ import com.sdsu.hoanh.geoalbum.Model.PhotoDatabaseHelper;
 import com.sdsu.hoanh.geoalbum.Model.PhotoModel;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -37,7 +42,7 @@ public class MainActivity extends ActionBarActivity {
         // bootstrap the database with this context.
         // Must call this first before any attempt to access DB
         PhotoDatabaseHelper database = PhotoDatabaseHelper.getInstance(this);
-        //_testDbInsert(database);
+
 
         // start GPS monitoring
         GpsProvider gpsProvider = new GpsProvider();
@@ -69,7 +74,7 @@ public class MainActivity extends ActionBarActivity {
         showMapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.this.showMap();
+                MainActivity.this._showMap();
             }
         });
 
@@ -78,10 +83,17 @@ public class MainActivity extends ActionBarActivity {
         takePicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.this.takePicture();
+                MainActivity.this._takePicture();
             }
         });
 
+        Button deletePicButton = (Button)this.findViewById(R.id._btnDeleteSelectedPhotos);
+        deletePicButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.this._deleteSelectedPhotos();
+            }
+        });
 
 //        Button showPhotoListing = (Button)this.findViewById(R.id._btnTableAlbum);
 //        showPhotoListing.setOnClickListener(new View.OnClickListener() {
@@ -144,7 +156,45 @@ public class MainActivity extends ActionBarActivity {
         // display the detail view.
         showPhotoDetail(selPhoto.getId());
     }
-    private void showMap()
+
+    private void  _deleteSelectedPhotos(){
+
+        List<Photo> selPhotos = new ArrayList<Photo>();
+        //List<Long> selPhotoIds = new ArrayList<Long>();
+        ListView recentPhotosListView = (ListView)this.findViewById(R.id._recentPhotosListView);
+
+        // get all photos that are selected
+        for(int i=0; i < _photoAdapter.getCount(); i++) {
+            View rowView = recentPhotosListView.getChildAt(i);
+
+            // get the title textbox from the view
+            CheckBox selPhotoCheckbox =
+                    (CheckBox)rowView.findViewById(R.id._photoDeleteCheckbox);
+
+            // if photo is selected, then add it to the list to be deleted
+            if(selPhotoCheckbox.isChecked()){
+                Photo photo = _photoAdapter.getItem(i);
+                selPhotos.add(photo);
+            }
+        }
+
+        // ask the model to delete the photos
+        int deletedItems = PhotoModel.getInstance().deletePhotos(selPhotos);
+        if(deletedItems == selPhotos.size()) {
+            Toast.makeText(this, deletedItems + " photos deleted.",
+                    Toast.LENGTH_LONG).show();
+        }
+        else {
+            Toast.makeText(this, "Error, only " + deletedItems + " photos deleted.",
+                                Toast.LENGTH_LONG).show();
+        }
+
+        // remove the delete photo from the listview
+        for(Photo delPhoto : selPhotos) {
+            _photoAdapter.remove(delPhoto);
+        }
+    }
+    private void _showMap()
     {
         Intent i = new Intent(this, MapsActivity.class);
         this.startActivity(i);
@@ -159,7 +209,7 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    private void takePicture()
+    private void _takePicture()
     {
         Intent i = new Intent(this, TakePictureActivity.class);
         this.startActivityForResult(i, TakePictureActivity.TAKE_PHOTO_IMAGE_ACTIVITY_REQUEST_CODE);
