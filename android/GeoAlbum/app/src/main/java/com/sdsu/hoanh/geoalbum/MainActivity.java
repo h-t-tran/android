@@ -47,24 +47,16 @@ public class MainActivity extends ActionBarActivity {
 
         wireUpHandlers();
 
+        // display all photos from db
+        _showRecentPhotos();
+
+        // make sure the controls state are updated.
+        _synchSelectAllControls();
     }
 
-//    private void _testDbInsert(PhotoDatabaseHelper database) {
-//        Photo p = new Photo(1);
-//        p.setImagePath("the path2" + (new Date()).toString());
-//        p.setLon(1.0);
-//        p.setLat(2.0);
-//        p.setDesc("desc");
-//        p.setTitle("title "+ (new Date()).toString());
-//        p.setDate(new Date());
-//        database.insertOrUpdateTeacher(p);
-//
-//        database.getAllPhotos();
-//        Photo photo = database.getPhoto(3);
-//
-//    }
-
-
+    /**
+     * attach handlers to the various buttons & controls
+     */
     private void wireUpHandlers()
     {
         Button showMapButton = (Button)this.findViewById(R.id._btnMap);
@@ -100,11 +92,6 @@ public class MainActivity extends ActionBarActivity {
                 MainActivity.this._selectAllPhotos(isChecked);
             }
         });
-
-        _showRecentPhotos();
-
-        // make sure the controls state are updated.
-        _synchSelectAllControls();
     }
 
     /**
@@ -118,9 +105,6 @@ public class MainActivity extends ActionBarActivity {
 
         int numPhotos = _photoAdapter.getCount();
         boolean isEnabled =  numPhotos > 0;
-
-        //selAllCheckbox.setEnabled(isEnabled);
-        //deletePicButton.setEnabled(isEnabled);
 
         int visibiity = isEnabled ? View.VISIBLE : View.INVISIBLE;
         selAllCheckbox.setVisibility(visibiity);
@@ -290,27 +274,27 @@ public class MainActivity extends ActionBarActivity {
         titleTextView.setText(photo.getTitle());
 
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
     /**
      * custom adapter to show the photo data
@@ -349,6 +333,16 @@ public class MainActivity extends ActionBarActivity {
                     (CheckBox)convertView.findViewById(R.id._photoDeleteCheckbox);
             solvedCheckBox.setChecked(false);
 
+            // save the photo id for closure
+            final long photoId = nthPhoto.getId();
+            viewer.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    // launch the photo viewer activity to display only the photo.
+                    Intent intent = new Intent(MainActivity.this, PhotoViewerActivity.class);
+                    intent.putExtra(PhotoViewerActivity.PHOTO_ID_KEY, photoId);
+                    MainActivity.this.startActivity(intent);
+                }
+            });
             return convertView;
         }
     }

@@ -66,6 +66,10 @@
             android:name=".PictureDetailActivity"
             android:label="@string/title_activity_picture_detail" >
         </activity>
+        <activity
+            android:name=".PhotoViewerActivity"
+            android:label="@string/title_activity_photo_viewer" >
+        </activity>
     </application>
 
 </manifest>
