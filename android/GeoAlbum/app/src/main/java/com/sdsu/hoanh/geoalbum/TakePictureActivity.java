@@ -59,11 +59,7 @@ public class TakePictureActivity extends PictureDetailActivity {
             photo.setImagePath(getRealPathFromURI(uri));
 
             _picDetailFagment.setNewPhoto(photo);
-//
-//            // pass back the intent with the ID of the new photo to the calling activity
-//            Intent returnIntent = new Intent();
-//            returnIntent.putExtra(PHOTO_ID_KEY, photo.getId());
-//            this.setResult(RESULT_OK, returnIntent);
+
         }
         else {
             this.setResult(RESULT_CANCELED);
