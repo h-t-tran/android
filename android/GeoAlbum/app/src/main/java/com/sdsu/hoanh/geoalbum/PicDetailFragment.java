@@ -1,5 +1,6 @@
 package com.sdsu.hoanh.geoalbum;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
@@ -45,7 +46,7 @@ public class PicDetailFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_image_detail, container, false);
 
@@ -56,38 +57,9 @@ public class PicDetailFragment extends Fragment {
         _dateTextView = (TextView)rootView.findViewById(R.id._picDateEntry);
         _pathTextView = (TextView)rootView.findViewById(R.id._picPathEntry);
 
-
-        //_testShowDetail();
-
         return rootView;
     }
 
-    private void _showPhoto(int photoId) {
-
-    }
-    private void _testShowDetail() {
-        // TEST CODE
-        PhotoDatabaseHelper db = PhotoDatabaseHelper.getInstance(null);
-        List<Photo> photos = db.getAllPhotos();
-        Photo photo = db.getPhoto(3);
-        //Photo photo = photos.get(photos.size() - 1);
-        if(photo != null)
-        {
-            this.setExistingPhoto(photo);
-        }
-    }
-
-    public boolean deletePhoto()
-    {
-        boolean result = false;
-        // is the path exist?
-        if(_photo.getImagePath() != null) {
-            File fileToDelete = new File(_photo.getImagePath());
-            result = fileToDelete.delete();
-        }
-
-        return result;
-    }
     /**
      * Update the photo with the entered title and desc.  Then save it
      * @return true if the photo is saved.  false if user did not enter title or desc
@@ -125,7 +97,7 @@ public class PicDetailFragment extends Fragment {
     /**
      * inform the fragment of an existing photo.
      */
-    public void setExistingPhoto(Photo photo)
+    public void setExistingPhoto(final Photo photo)
     {
         this._photo = photo;
 
@@ -151,6 +123,16 @@ public class PicDetailFragment extends Fragment {
         _pathTextView.setText(photo.getImagePath());
         _titleTextView.setText(photo.getTitle());
         _descTextView.setText(photo.getDesc());
+
+        // add click listener to the image viewer so we can display the photo
+        _imageView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                // launch the photo viewer activity to display only the photo.
+                Intent intent = new Intent(getActivity(), PhotoViewerActivity.class);
+                intent.putExtra(PhotoViewerActivity.PHOTO_ID_KEY, photo.getId());
+                getActivity().startActivity(intent);
+            }
+        });
     }
 
     /**
