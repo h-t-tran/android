@@ -1,11 +1,11 @@
 package com.sdsu.hoanh.geoalbum;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -30,6 +30,7 @@ import java.util.List;
 public class MainActivity extends ActionBarActivity {
     private PhotoOverviewAdapter _photoAdapter;
     private int _selectedPhotoIdx = Constants.INVALID_PHOTO_ID;
+    private List<Photo> _allPhotos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,8 +130,15 @@ public class MainActivity extends ActionBarActivity {
         // get views of all items
         for (int i = 0; i < _photoAdapter.getCount(); i++) {
             View rowView = recentPhotosListView.getChildAt(i);
-            CheckBox selPhotoCheckbox = (CheckBox) rowView.findViewById(R.id._photoDeleteCheckbox);
-            selPhotoCheckbox.setChecked(selectAll);
+            if(rowView != null) {
+                CheckBox selPhotoCheckbox = (CheckBox) rowView.findViewById(R.id._photoDeleteCheckbox);
+                selPhotoCheckbox.setChecked(selectAll);
+            }
+        }
+
+        // mark/unmark each photo to be deleted.
+        for(Photo eachPhoto : _allPhotos) {
+            eachPhoto.setSelForDeletion(selectAll);
         }
     }
 
@@ -138,13 +146,14 @@ public class MainActivity extends ActionBarActivity {
     {
         ListView recentPhotosListView = (ListView)this.findViewById(R.id._recentPhotosListView);
 
-        // newest photo is at highest row in DB, so we want to add those to begining of the
+        // newest photo is at highest row in DB, so we want to add those to beginning of the
         // listview
-        List<Photo> photos = PhotoModel.getInstance().getPhotos();
-        final int numPhotosToDisplay = Math.min(100, photos.size());
+        _allPhotos = PhotoModel.getInstance().getPhotos();
+        //final int numPhotosToDisplay = Math.min(100, _allPhotos.size());
+
         List<Photo> photosToDisplay = new ArrayList<Photo>();
-        for(int i=0; i < numPhotosToDisplay; i++) {
-            photosToDisplay.add(i, photos.get( photos.size() - i - 1));
+        for(int i=0; i < _allPhotos.size(); i++) {
+            photosToDisplay.add(i, _allPhotos.get( _allPhotos.size() - i - 1));
         }
 
         _photoAdapter = new PhotoOverviewAdapter(photosToDisplay);
@@ -171,42 +180,69 @@ public class MainActivity extends ActionBarActivity {
 
         List<Photo> selPhotos = new ArrayList<Photo>();
 
-        ListView recentPhotosListView = (ListView)this.findViewById(R.id._recentPhotosListView);
-
-        // get all photos that are selected
-        for(int i=0; i < _photoAdapter.getCount(); i++) {
-            View rowView = recentPhotosListView.getChildAt(i);
-
-            // get the checkbox from the view
-            CheckBox selPhotoCheckbox =
-                    (CheckBox)rowView.findViewById(R.id._photoDeleteCheckbox);
-
-            // if photo is selected, then add it to the list to be deleted
-            if(selPhotoCheckbox.isChecked()){
-                Photo photo = _photoAdapter.getItem(i);
-                selPhotos.add(photo);
+        // find each photo that are selected for deletion and save it in the list
+        for(Photo eachPhoto :  _allPhotos) {
+            if(eachPhoto.isSelForDeletion()) {
+                selPhotos.add(eachPhoto);
             }
         }
 
-        // ask the model to delete the photos
-        int deletedItems = PhotoModel.getInstance().deletePhotos(selPhotos);
-        if(deletedItems == selPhotos.size()) {
-            Toast.makeText(this, deletedItems + " photos deleted.",
-                    Toast.LENGTH_LONG).show();
-        }
-        else {
-            Toast.makeText(this, "Error, only " + deletedItems + " photos deleted.",
-                                Toast.LENGTH_LONG).show();
-        }
+        // prompt user if > 1 photo is selected
+        if(selPhotos.size() > 0 && MainActivity.this._askQuestion("", "Delete " + selPhotos.size() + " photo(s)?")) {
 
-        // remove the delete photo from the listview
-        for(Photo delPhoto : selPhotos) {
-            _photoAdapter.remove(delPhoto);
-        }
+            // ask the model to delete the photos
+            int deletedItems = PhotoModel.getInstance().deletePhotos(selPhotos);
+            if (deletedItems == selPhotos.size()) {
+                Toast.makeText(this, deletedItems + " photos deleted.",
+                        Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Error, only " + deletedItems + " photos deleted.",
+                        Toast.LENGTH_LONG).show();
+            }
 
-        // make sure the controls state are updated.
-        _synchSelectAllControls();
+            // remove the delete photo from the listview and from our saved _allPhotos
+            for (Photo delPhoto : selPhotos) {
+                _photoAdapter.remove(delPhoto);
+                _allPhotos.remove(delPhoto);
+            }
+
+            // make sure the controls state are updated.
+            _synchSelectAllControls();
+        }
     }
+
+    private boolean isYes = false;
+    private boolean _askQuestion(String title, String question) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle(title);
+        builder.setMessage(question);
+
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing but close the dialog
+                isYes = true;
+                dialog.dismiss();
+            }
+
+        });
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                isYes = false;
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+        return isYes;
+    }
+
     private void _showMap()
     {
         Intent i = new Intent(this, MapsActivity.class);
@@ -294,7 +330,7 @@ public class MainActivity extends ActionBarActivity {
             }
 
             // get the i-th photo
-            Photo nthPhoto = this.getItem(position);
+            final Photo nthPhoto = this.getItem(position);
 
             // crate URI to the photo path and load it in the ImageView
             Uri uri = Uri.parse(nthPhoto.getImagePath());
@@ -308,9 +344,15 @@ public class MainActivity extends ActionBarActivity {
                     (TextView)convertView.findViewById(R.id._photoTitleTextView);
             titleTextView.setText(nthPhoto.getTitle());
 
-            CheckBox solvedCheckBox =
+            CheckBox delCheckbox =
                     (CheckBox)convertView.findViewById(R.id._photoDeleteCheckbox);
-            solvedCheckBox.setChecked(false);
+            //solvedCheckBox.setChecked(false);
+            delCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    nthPhoto.setSelForDeletion(isChecked);
+                }
+            });
 
             // save the photo id for closure
             final long photoId = nthPhoto.getId();
@@ -322,6 +364,7 @@ public class MainActivity extends ActionBarActivity {
                     MainActivity.this.startActivity(intent);
                 }
             });
+
             return convertView;
         }
     }

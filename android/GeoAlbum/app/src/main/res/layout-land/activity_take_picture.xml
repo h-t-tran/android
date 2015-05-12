@@ -1,0 +1,113 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:padding="5dp"
+    tools:context="com.sdsu.hoanh.geoalbum.TakePictureActivity">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1">
+
+            <FrameLayout
+                android:id="@+id/_picDetailContainer"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="5">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/_acceptPic"
+                android:id="@+id/_okPhoto"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignLeft="@+id/_okPhoto"
+                android:layout_alignStart="@+id/_okPhoto" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/_cancelPic"
+                android:id="@+id/_cancelPhoto"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignLeft="@+id/_okPhoto"
+                android:layout_alignStart="@+id/_okPhoto" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <!---->
+    <!--<LinearLayout-->
+        <!--android:layout_weight="1"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:id="@+id/linearLayout2">-->
+
+        <!--<LinearLayout-->
+            <!--android:orientation="vertical"-->
+            <!--android:layout_width="467dp"-->
+            <!--android:layout_height="fill_parent"-->
+            <!--android:id="@+id/linearLayout">-->
+
+            <!--<FrameLayout-->
+                <!--android:id="@+id/_picDetailContainer"-->
+                <!--android:layout_width="507dp"-->
+                <!--android:layout_height="350dp" >-->
+            <!--</FrameLayout>-->
+
+
+        <!--</LinearLayout>-->
+
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+        <!--android:orientation="vertical"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_alignRight="@+id/linearLayout2"-->
+        <!--android:layout_alignEnd="@+id/linearLayout2">-->
+
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/_acceptPic"-->
+            <!--android:id="@+id/_okPhoto"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_alignLeft="@+id/_okPhoto"-->
+            <!--android:layout_alignStart="@+id/_okPhoto" />-->
+
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/_cancelPic"-->
+            <!--android:id="@+id/button"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_alignLeft="@+id/_okPhoto"-->
+            <!--android:layout_alignStart="@+id/_okPhoto" />-->
+    <!--</LinearLayout>-->
+
+</RelativeLayout>

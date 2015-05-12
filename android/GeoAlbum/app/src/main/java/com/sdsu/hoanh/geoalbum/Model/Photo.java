@@ -17,6 +17,16 @@ public class Photo {
     private Bitmap image;
     private Date date;
 
+    public boolean isSelForDeletion() {
+        return isSelForDeletion;
+    }
+
+    public void setSelForDeletion(boolean isSelForDeletion) {
+        this.isSelForDeletion = isSelForDeletion;
+    }
+
+    private boolean isSelForDeletion;
+
 //    private static Random _randomGenerator = new Random();
 //    static {
 //        // seed it with current time.
